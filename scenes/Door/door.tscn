@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://x3okxjas4vwv"]
+
+[ext_resource type="Script" uid="uid://ljh0ju4y7rk" path="res://scenes/Door/door.gd" id="1_sik3a"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0w3kd"]
+size = Vector3(2, 3, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_066lh"]
+size = Vector3(2, 3, 0.1)
+
+[node name="Door" type="Node3D" unique_id=1081055401]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1189498544 groups=["interactable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+collision_layer = 5
+script = ExtResource("1_sik3a")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1866162788]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = SubResource("BoxMesh_0w3kd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1415727588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+shape = SubResource("BoxShape3D_066lh")

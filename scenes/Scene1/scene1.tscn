@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://c5h3e7ml4rdb1"]
+
+[ext_resource type="PackedScene" uid="uid://dr1vs4qo2wqu7" path="res://components/player/player.tscn" id="1_vcg2f"]
+[ext_resource type="PackedScene" uid="uid://d2rt8kylgueim" path="res://scenes/Elevator/elevator.tscn" id="2_5ig07"]
+[ext_resource type="PackedScene" uid="uid://x3okxjas4vwv" path="res://scenes/Door/door.tscn" id="3_21n4o"]
+[ext_resource type="PackedScene" uid="uid://c31psquiq8xik" path="res://scenes/Key/key.tscn" id="4_no02f"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_frw8u"]
+
+[sub_resource type="Sky" id="Sky_vwc85"]
+sky_material = SubResource("PhysicalSkyMaterial_frw8u")
+
+[sub_resource type="Environment" id="Environment_007yp"]
+background_mode = 2
+background_energy_multiplier = 3.45
+sky = SubResource("Sky_vwc85")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dc6gq"]
+albedo_color = Color(0.37184048, 0.41724303, 0.53824466, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0w3kd"]
+size = Vector3(8, 2.2, 4.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oqax5"]
+size = Vector3(8, 2.2, 4.5)
+
+[node name="Node3D" type="Node3D" unique_id=155582040]
+
+[node name="Player" parent="." unique_id=1335899736 instance=ExtResource("1_vcg2f")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0.9, 0)
+
+[node name="World" type="Node3D" parent="." unique_id=170773903]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World" unique_id=792170737]
+transform = Transform3D(1, 0, 0, 0, 0.42261824, 0.9063078, 0, -0.9063078, 0.42261824, 0, 24.290844, 11.865432)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="World" unique_id=1655907819]
+environment = SubResource("Environment_007yp")
+
+[node name="Hallway" type="Node3D" parent="World" unique_id=1718713447]
+
+[node name="CSGBox3D_floor" type="CSGBox3D" parent="World/Hallway" unique_id=1071901622]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.1, 0)
+use_collision = true
+size = Vector3(30, 0.1, 5)
+material = SubResource("StandardMaterial3D_dc6gq")
+
+[node name="CSGBox3D_rwall" type="CSGBox3D" parent="World/Hallway" unique_id=142004660]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 10, 2.45, 2.45)
+use_collision = true
+size = Vector3(30, 0.1, 5)
+material = SubResource("StandardMaterial3D_dc6gq")
+
+[node name="CSGBox3D_lwall" type="CSGBox3D" parent="World/Hallway" unique_id=1036767213]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 10, 2.45, -2.45)
+use_collision = true
+size = Vector3(30, 0.1, 5)
+material = SubResource("StandardMaterial3D_dc6gq")
+
+[node name="CSGBox3D_bwall" type="CSGBox3D" parent="World/Hallway" unique_id=996866501]
+transform = Transform3D(-4.371139e-08, -1, -4.371139e-08, 0, -4.371139e-08, 1, -1, 4.371139e-08, 1.9106855e-15, -5, 2.45, 0)
+use_collision = true
+size = Vector3(5, 0.1, 5)
+material = SubResource("StandardMaterial3D_dc6gq")
+
+[node name="Elevator" parent="World/Hallway" unique_id=692422693 instance=ExtResource("2_5ig07")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.030085, 1.2657204, -1.0906724)
+
+[node name="AnimatableBody3D" parent="World/Hallway/Elevator" index="0" unique_id=1020956976]
+travel_lenght = 30
+
+[node name="Hallway_objects" type="Node3D" parent="World" unique_id=863064085]
+
+[node name="Door" parent="World/Hallway_objects" unique_id=1081055401 instance=ExtResource("3_21n4o")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 24.920752, -0.05, -1.06)
+
+[node name="StaticBody3D" parent="World/Hallway_objects/Door" index="0" unique_id=1189498544]
+required_key = "key"
+
+[node name="CSGBox3D_bwall2" type="CSGBox3D" parent="World/Hallway_objects/Door" unique_id=926211512]
+transform = Transform3D(1, -1.7484555e-07, -7.642742e-15, 0, -4.371139e-08, 1, -1.7484555e-07, -1, -4.371139e-08, 1.0600771, 2.4999998, -0.037353516)
+operation = 2
+use_collision = true
+size = Vector3(5, 0.1, 5)
+material = SubResource("StandardMaterial3D_dc6gq")
+
+[node name="CSGBox3D_bwall3" type="CSGBox3D" parent="World/Hallway_objects/Door/CSGBox3D_bwall2" unique_id=619631294]
+transform = Transform3D(1, 0, 0, 0, 1, 7.516684e-22, 0, 7.5166837e-22, 1, -0.083415866, 0, -0.9875854)
+operation = 2
+use_collision = true
+size = Vector3(2, 0.1, 3)
+material = SubResource("StandardMaterial3D_dc6gq")
+
+[node name="Box" type="StaticBody3D" parent="World/Hallway_objects" unique_id=2000564653 groups=["climbeable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, 0)
+collision_layer = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Hallway_objects/Box" unique_id=540822022]
+mesh = SubResource("BoxMesh_0w3kd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Hallway_objects/Box" unique_id=813568829]
+shape = SubResource("BoxShape3D_oqax5")
+debug_color = Color(0.84810907, 3.012985e-05, 0.61192393, 0.41960785)
+
+[node name="Key" parent="World/Hallway_objects" unique_id=2030183203 instance=ExtResource("4_no02f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.37606, 0.024999812, 1.1687477)
+
+[editable path="World/Hallway/Elevator"]
+[editable path="World/Hallway_objects/Door"]

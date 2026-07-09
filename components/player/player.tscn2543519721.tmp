@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dr1vs4qo2wqu7"]
+
+[ext_resource type="Script" uid="uid://dnmq8elev0jq7" path="res://components/player/player.gd" id="1_0g4kb"]
+[ext_resource type="PackedScene" uid="uid://rl3q5ejwhndn" path="res://components/player/climbing_sensor.tscn" id="2_ph1f6"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w3kd"]
+height = 1.8
+
+[node name="Player" type="Node3D" unique_id=1335899736]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1700311132]
+script = ExtResource("1_0g4kb")
+
+[node name="ClimbingSensor" parent="CharacterBody3D" unique_id=737243152 instance=ExtResource("2_ph1f6")]
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=474028701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1213606969]
+shape = SubResource("CapsuleShape3D_0w3kd")
+debug_color = Color(0.95686275, 0, 0, 0.41960785)

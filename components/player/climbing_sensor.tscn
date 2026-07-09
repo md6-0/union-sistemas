@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://rl3q5ejwhndn"]
+
+[ext_resource type="Script" uid="uid://c2b8gimusm8rx" path="res://components/player/climbing_sensor.gd" id="1_cqnci"]
+
+[node name="ClimbingSensor" type="Node3D" unique_id=737243152]
+script = ExtResource("1_cqnci")
+
+[node name="RayCast3D_surface" type="RayCast3D" parent="." unique_id=224619649]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1)
+target_position = Vector3(0, -3, 0)
+collision_mask = 2
+debug_shape_custom_color = Color(0, 0, 1, 1)
+
+[node name="RayCast3D_arms" type="RayCast3D" parent="." unique_id=316838882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4946966, 0)
+target_position = Vector3(0, 0, -1)
+collision_mask = 2
+debug_shape_custom_color = Color(1, 1, 0, 1)
+
+[node name="RayCast3D_chest" type="RayCast3D" parent="." unique_id=1453310337]
+target_position = Vector3(0, 0, -1)
+collision_mask = 2
+debug_shape_custom_color = Color(1, 0, 0, 1)
