@@ -58,3 +58,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.2, -0.3)
 
 [node name="MeshInstance3D_hand_left" type="MeshInstance3D" parent="StaticBody3D/Hand_left" unique_id=462895826]
 mesh = SubResource("CapsuleMesh_oqax5")
+
+[node name="Label3D_enemy_health" type="Label3D" parent="StaticBody3D" unique_id=1269087814]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.216823, 0)
+billboard = 1
+text = "100"
+font_size = 64
+outline_size = 2

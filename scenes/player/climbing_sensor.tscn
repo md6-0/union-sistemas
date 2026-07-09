@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://rl3q5ejwhndn"]
 
-[ext_resource type="Script" uid="uid://c2b8gimusm8rx" path="res://components/player/climbing_sensor.gd" id="1_cqnci"]
+[ext_resource type="Script" uid="uid://c2b8gimusm8rx" path="res://scenes/player/climbing_sensor.gd" id="1_cqnci"]
 
 [node name="ClimbingSensor" type="Node3D" unique_id=737243152]
 script = ExtResource("1_cqnci")

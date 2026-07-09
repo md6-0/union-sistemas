@@ -15,6 +15,7 @@ const CHASE_SPEED = 2
 @export var attack_range: float = 2.0
 @export var attack_damage: float = 20.0
 
+@onready var label_enemy_health = %Label3D_enemy_health
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var navigation_agent = $NavigationAgent3D
 @onready var waypoints = patrol_route.get_children()
@@ -29,7 +30,9 @@ var current_memory_time = 0
 var current_state = State.PATROL
 @onready var current_attack_cooldown_time = attack_cooldown
 
-
+func _ready():
+	label_enemy_health.text = str(health)
+	
 func _physics_process(delta):
 	_handle_gravity(delta)
 	_handle_state(delta)
@@ -121,14 +124,14 @@ func _handle_attack_state(delta):
 		if current_attack_cooldown_time > attack_cooldown:
 			current_attack_cooldown_time = 0
 			var tween = create_tween()
-			# 1: descarga el palo
-			tween.tween_property(right_hand, "rotation:x", hand_guard_rotation_x - deg_to_rad(90), 0.1) \
+			# 1: Inicio animación
+			tween.tween_property(right_hand, "rotation:x", hand_guard_rotation_x - deg_to_rad(160), 0.1) \
 				.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)    
-			# 2: AHÍ pega      
+			# 2: Pega      
 			tween.tween_callback(func(): 
 				if global_position.distance_to(player.global_position) < attack_range:
 					player.take_damage(attack_damage)
-) 
+				) 
 			# 3: vuelve a guardia
 			tween.tween_property(right_hand, "rotation:x", hand_guard_rotation_x, 0.3)  
 			
@@ -154,7 +157,8 @@ func _can_see_player():
 				return false
 
 func take_damage(damage):
+	_change_state(State.CHASE)
 	health -= damage
-	
+	label_enemy_health.text = str(health)
 	if health <= 0:
 		queue_free()

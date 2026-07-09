@@ -46,7 +46,7 @@ func _handle_gravity(delta):
 
 func _handle_movement(delta):
 	
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		
 	var look_dir = Input.get_vector("look_left", "look_right", "look_up", "look_down")

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://d2rt8kylgueim" path="res://scenes/Elevator/elevator.tscn" id="1_ktaha"]
 [ext_resource type="PackedScene" uid="uid://b63t3planx2ou" path="res://scenes/Enemy/enemy.tscn" id="2_0ya8a"]
-[ext_resource type="PackedScene" uid="uid://dr1vs4qo2wqu7" path="res://components/player/player.tscn" id="2_joneh"]
+[ext_resource type="PackedScene" uid="uid://dr1vs4qo2wqu7" path="res://scenes/player/player.tscn" id="2_joneh"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_joneh"]
 

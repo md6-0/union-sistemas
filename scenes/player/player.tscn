@@ -1,13 +1,16 @@
 [gd_scene format=3 uid="uid://dr1vs4qo2wqu7"]
 
-[ext_resource type="Script" uid="uid://dnmq8elev0jq7" path="res://components/player/player.gd" id="1_0g4kb"]
-[ext_resource type="PackedScene" uid="uid://rl3q5ejwhndn" path="res://components/player/climbing_sensor.tscn" id="2_ph1f6"]
+[ext_resource type="Script" uid="uid://dnmq8elev0jq7" path="res://scenes/player/player.gd" id="1_0g4kb"]
+[ext_resource type="PackedScene" uid="uid://brpucg70ub140" path="res://scenes/HUD/hud.tscn" id="1_lvxji"]
+[ext_resource type="PackedScene" uid="uid://rl3q5ejwhndn" path="res://scenes/player/climbing_sensor.tscn" id="2_ph1f6"]
 [ext_resource type="PackedScene" uid="uid://b1qrngri5630c" path="res://scenes/Weapon/weapon.tscn" id="3_ph1f6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w3kd"]
 height = 1.8
 
 [node name="Player" type="Node3D" unique_id=1335899736]
+
+[node name="Hud" parent="." unique_id=1210281293 instance=ExtResource("1_lvxji")]
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1700311132 groups=["player"]]
 script = ExtResource("1_0g4kb")

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://brpucg70ub140"]
+
+[ext_resource type="Script" uid="uid://cnunerjunn1vu" path="res://scenes/HUD/hud.gd" id="1_c0cnr"]
+
+[node name="CanvasLayer_hud" type="CanvasLayer" unique_id=1137507503]
+script = ExtResource("1_c0cnr")
+
+[node name="Label_player_health" type="Label" parent="." unique_id=240138362]
+offset_left = 484.0
+offset_top = 18.0
+offset_right = 629.0
+offset_bottom = 67.0
+text = "Health
+"
+
+[node name="ProgressBar_player_health" type="ProgressBar" parent="." unique_id=1306229802]
+unique_name_in_owner = true
+offset_left = 344.0
+offset_top = 48.0
+offset_right = 689.0
+offset_bottom = 75.0
