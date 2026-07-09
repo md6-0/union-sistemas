@@ -39,6 +39,10 @@ func _handle_gravity(delta):
 
 func _handle_state(delta):
 	
+	# Interruptor: solo los estados "despistados" pueden descubrir al jugador
+	if current_state in [State.PATROL, State.WATCH] and _can_see_player():
+		_change_state(State.CHASE)
+		
 	if current_state == State.ATTACK:
 		_handle_attack_state(delta)
 		
@@ -51,17 +55,22 @@ func _handle_state(delta):
 	elif current_state == State.WATCH:
 		_handle_watch_state(delta)
 
+func _change_state(new_state):
+	current_state = new_state
+	match new_state:
+		State.WATCH:
+			current_wait_time = 0
+		State.CHASE:
+			current_memory_time = 0
+		State.ATTACK:
+			current_attack_cooldown_time = attack_cooldown
+
 func _handle_patrol_state():
-	
-	if _can_see_player():
-		current_state = State.CHASE
-		return
-	
 	var target = waypoints[current_waypoint].global_position
 	target.y = global_position.y
 	var distance_to_next_waypoint = global_position.distance_to(target)
 	if distance_to_next_waypoint < .5:
-		current_state = State.WATCH
+		_change_state(State.WATCH)
 		current_waypoint = (current_waypoint + 1) % waypoints.size()
 	else:
 		var direction = waypoints[current_waypoint].global_position - global_position
@@ -71,24 +80,17 @@ func _handle_patrol_state():
 		velocity.z = direction.z * SPEED
 		look_at(global_position + direction)
 
-func _handle_watch_state(delta):
-	if _can_see_player():
-		current_state = State.CHASE
-		current_wait_time = 0
-		return
-		
+func _handle_watch_state(delta):		
 	if current_wait_time <= wait_time:
 		current_wait_time += delta
 		velocity.x = 0
 		velocity.z = 0
 	else:
-		current_state = State.PATROL
-		current_wait_time = 0
+		_change_state(State.PATROL)
 
 func _handle_chase_state(delta):
 	if global_position.distance_to(player.global_position) < attack_range:
-		current_state = State.ATTACK
-		current_memory_time = 0
+		_change_state(State.ATTACK)
 		return
 		
 	if _can_see_player(): 
@@ -96,8 +98,7 @@ func _handle_chase_state(delta):
 	else:
 		current_memory_time += delta
 		if current_memory_time >= MEMORY_TIME:
-			current_state = State.PATROL
-			current_memory_time = 0
+			_change_state(State.PATROL)
 			return
 			
 	navigation_agent.target_position = player.global_position
@@ -120,8 +121,7 @@ func _handle_attack_state(delta):
 			player.take_damage(attack_damage)
 			
 	else: 
-		current_state = State.CHASE
-		current_attack_cooldown_time = 0
+		_change_state(State.CHASE)
 
 func _can_see_player():
 	if global_position.distance_to(player.global_position) > DETECTION_RANGE:
