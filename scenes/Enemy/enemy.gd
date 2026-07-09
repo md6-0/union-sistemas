@@ -19,6 +19,8 @@ const CHASE_SPEED = 2
 @onready var navigation_agent = $NavigationAgent3D
 @onready var waypoints = patrol_route.get_children()
 @onready var ray_player_detector = $RayCast3D_player_detector
+@onready var right_hand = $Hand_right
+@onready var hand_guard_rotation_x = right_hand.rotation.x
 
 
 var current_wait_time = 0
@@ -118,7 +120,17 @@ func _handle_attack_state(delta):
 		velocity.z = 0
 		if current_attack_cooldown_time > attack_cooldown:
 			current_attack_cooldown_time = 0
-			player.take_damage(attack_damage)
+			var tween = create_tween()
+			# 1: descarga el palo
+			tween.tween_property(right_hand, "rotation:x", hand_guard_rotation_x - deg_to_rad(90), 0.1) \
+				.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)    
+			# 2: AHÍ pega      
+			tween.tween_callback(func(): 
+				if global_position.distance_to(player.global_position) < attack_range:
+					player.take_damage(attack_damage)
+) 
+			# 3: vuelve a guardia
+			tween.tween_property(right_hand, "rotation:x", hand_guard_rotation_x, 0.3)  
 			
 	else: 
 		_change_state(State.CHASE)
