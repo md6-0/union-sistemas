@@ -98,6 +98,13 @@ func _handle_weapon(delta):
 	if Input.is_action_just_pressed("shoot"):
 		weapon.try_shoot(delta)
 
+func take_damage(damage):
+	GameManager.player_health -= damage
+	print("Player says: Ouch!")
+	if GameManager.player_health <= 0:
+		GameManager.player_health = 100
+		get_tree().reload_current_scene()
+
 func _unhandled_input(event):
 	if event is InputEventMouseMotion and player_state != State.CLIMBING:
 		_handle_camera(event.relative.x, event.relative.y, MOUSE_SENSITIVITY)

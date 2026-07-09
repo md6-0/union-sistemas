@@ -1,28 +1,31 @@
 extends CharacterBody3D
 
-enum State { PATROL, WATCH, CHASE }
+enum State { PATROL, WATCH, CHASE, ATTACK }
 
 const DETECTION_RANGE = 30
 const FOV = 120
 const MEMORY_TIME = 4
+const SPEED = 1
+const CHASE_SPEED = 2
 
 @export var health: int = 100
 @export var patrol_route: Node3D
 @export var wait_time: float = 4.0
-
+@export var attack_cooldown: float = 2.0
+@export var attack_range: float = 2.0
+@export var attack_damage: float = 20.0
 
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var navigation_agent = $NavigationAgent3D
 @onready var waypoints = patrol_route.get_children()
 @onready var ray_player_detector = $RayCast3D_player_detector
 
-var current_waypoint = 0
-var current_state = State.PATROL
-var current_wait_time = 0
-var current_memory_time = 0
 
-const SPEED = 1
-const CHASE_SPEED = 3
+var current_wait_time = 0
+var current_waypoint = 0
+var current_memory_time = 0
+var current_state = State.PATROL
+@onready var current_attack_cooldown_time = attack_cooldown
 
 
 func _physics_process(delta):
@@ -36,10 +39,10 @@ func _handle_gravity(delta):
 
 func _handle_state(delta):
 	
-	if current_state != State.CHASE and _can_see_player():
-		current_state = State.CHASE
+	if current_state == State.ATTACK:
+		_handle_attack_state(delta)
 		
-	if current_state == State.CHASE:
+	elif current_state == State.CHASE:
 		_handle_chase_state(delta)
 		
 	elif current_state == State.PATROL:
@@ -49,6 +52,11 @@ func _handle_state(delta):
 		_handle_watch_state(delta)
 
 func _handle_patrol_state():
+	
+	if _can_see_player():
+		current_state = State.CHASE
+		return
+	
 	var target = waypoints[current_waypoint].global_position
 	target.y = global_position.y
 	var distance_to_next_waypoint = global_position.distance_to(target)
@@ -64,6 +72,11 @@ func _handle_patrol_state():
 		look_at(global_position + direction)
 
 func _handle_watch_state(delta):
+	if _can_see_player():
+		current_state = State.CHASE
+		current_wait_time = 0
+		return
+		
 	if current_wait_time <= wait_time:
 		current_wait_time += delta
 		velocity.x = 0
@@ -73,14 +86,20 @@ func _handle_watch_state(delta):
 		current_wait_time = 0
 
 func _handle_chase_state(delta):
+	if global_position.distance_to(player.global_position) < attack_range:
+		current_state = State.ATTACK
+		current_memory_time = 0
+		return
+		
 	if _can_see_player(): 
 		current_memory_time = 0
 	else:
 		current_memory_time += delta
 		if current_memory_time >= MEMORY_TIME:
 			current_state = State.PATROL
+			current_memory_time = 0
 			return
-	
+			
 	navigation_agent.target_position = player.global_position
 	var next_position = navigation_agent.get_next_path_position()
 	var direction = (next_position - global_position)
@@ -89,6 +108,20 @@ func _handle_chase_state(delta):
 	velocity.x = direction.x * CHASE_SPEED
 	velocity.z = direction.z * CHASE_SPEED
 	look_at(global_position + direction)
+
+func _handle_attack_state(delta):
+	current_attack_cooldown_time += delta
+	look_at(player.global_position)
+	if global_position.distance_to(player.global_position) < attack_range:
+		velocity.x = 0
+		velocity.z = 0
+		if current_attack_cooldown_time > attack_cooldown:
+			current_attack_cooldown_time = 0
+			player.take_damage(attack_damage)
+			
+	else: 
+		current_state = State.CHASE
+		current_attack_cooldown_time = 0
 
 func _can_see_player():
 	if global_position.distance_to(player.global_position) > DETECTION_RANGE:
