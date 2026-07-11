@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://byyl66pubwna6"]
+
+[sub_resource type="Gradient" id="Gradient_iy03e"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iy03e"]
+gradient = SubResource("Gradient_iy03e")
+fill = 1
+fill_from = Vector2(0.5307167, 0.52047783)
+fill_to = Vector2(1, 0.9846416)
+
+[node name="Decal" type="Decal" unique_id=1387457349]
+size = Vector3(0.2, 0.2, 0.2)
+texture_albedo = SubResource("GradientTexture2D_iy03e")

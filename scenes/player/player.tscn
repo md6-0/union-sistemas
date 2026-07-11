@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://dnmq8elev0jq7" path="res://scenes/player/player.gd" id="1_0g4kb"]
 [ext_resource type="PackedScene" uid="uid://brpucg70ub140" path="res://scenes/HUD/hud.tscn" id="1_lvxji"]
 [ext_resource type="PackedScene" uid="uid://rl3q5ejwhndn" path="res://scenes/player/climbing_sensor.tscn" id="2_ph1f6"]
-[ext_resource type="PackedScene" uid="uid://b1qrngri5630c" path="res://scenes/Weapon/weapon.tscn" id="3_ph1f6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w3kd"]
 height = 1.8
@@ -21,13 +20,11 @@ script = ExtResource("1_0g4kb")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 
 [node name="RayCast3D_interactable" type="RayCast3D" parent="CharacterBody3D/Camera3D" unique_id=2114943042]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.32280517, 0)
 target_position = Vector3(0, 0, -2)
 collision_mask = 4
 debug_shape_custom_color = Color(0, 1, 0, 1)
 debug_shape_thickness = 5
-
-[node name="Weapon" parent="CharacterBody3D/Camera3D" unique_id=377098217 instance=ExtResource("3_ph1f6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.0603329)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1213606969]
 shape = SubResource("CapsuleShape3D_0w3kd")

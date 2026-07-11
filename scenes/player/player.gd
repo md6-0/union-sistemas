@@ -17,11 +17,11 @@ const JOYSTICK_SENSITIVITY = 0.05
 var player_state = State.NORMAL
 var bob_time = 0.0
 var is_sprinting = false
+var weapon
 
 @onready var camera = $Camera3D
 @onready var climbing_sensor = $ClimbingSensor
 @onready var ray_interactable = $Camera3D/RayCast3D_interactable
-@onready var weapon = $Camera3D/Weapon
 @onready var camera_origin_y = camera.position.y
 
 func _ready():
@@ -89,13 +89,21 @@ func _handle_camera(look_x: float, look_y: float, sensitivity: float):
 	camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
 func _handle_interaction():
-	if ray_interactable.is_colliding():
+	if ray_interactable.is_colliding() and Input.is_action_just_pressed("interact"):
 		var collider = ray_interactable.get_collider()
-		if is_instance_valid(collider) and collider.is_in_group("interactable") and Input.is_action_just_pressed("interact"):
+		if collider.is_in_group("weapon"):
+			if weapon != null:
+				weapon.drop()
+			collider.pick_up(camera)
+			weapon = collider
+		elif collider.is_in_group("interactable"):
 			collider.interact(camera)
+	elif Input.is_action_just_pressed("drop") and weapon != null:
+		weapon.drop()
+		weapon = null
 
 func _handle_weapon(delta):
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot") and weapon != null:
 		weapon.try_shoot(delta)
 
 func take_damage(damage):
