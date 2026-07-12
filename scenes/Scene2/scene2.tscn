@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b63t3planx2ou" path="res://scenes/Enemy/enemy.tscn" id="2_0ya8a"]
 [ext_resource type="PackedScene" uid="uid://dr1vs4qo2wqu7" path="res://scenes/player/player.tscn" id="2_joneh"]
 [ext_resource type="MeshLibrary" uid="uid://be80qgu1xn7jh" path="res://scenes/Mesh_library/tiles.meshlib" id="4_fo0if"]
-[ext_resource type="PackedScene" uid="uid://b1qrngri5630c" path="res://scenes/Weapon/weapon.tscn" id="4_k4wf4"]
+[ext_resource type="PackedScene" uid="uid://b1qrngri5630c" path="res://scenes/Weapon/Hitscan_weapon/hitscan_weapon.tscn" id="4_k4wf4"]
 [ext_resource type="PackedScene" uid="uid://c6ip77dld0xrs" path="res://scenes/Enemy/target.tscn" id="5_fubqq"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_joneh"]
@@ -166,10 +166,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.06305, 2.1, -4.83356)
 
 [node name="Weapon2" parent="World/NavigationRegion3D/Room" unique_id=1184539288 instance=ExtResource("4_k4wf4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.869473, 2.1, -4.891844)
-cooldown = 1.0
-damage = 10
 pellets = 10
 spread = 20.0
+cooldown = 1.0
+damage = 10
 
 [node name="Box" type="StaticBody3D" parent="World/NavigationRegion3D/Room" unique_id=821189061 groups=["climbeable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.85332, 1, -1.4919279)

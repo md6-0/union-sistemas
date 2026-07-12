@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dnmq8elev0jq7" path="res://scenes/player/player.gd" id="1_0g4kb"]
 [ext_resource type="PackedScene" uid="uid://brpucg70ub140" path="res://scenes/HUD/hud.tscn" id="1_lvxji"]
-[ext_resource type="PackedScene" uid="uid://rl3q5ejwhndn" path="res://scenes/player/climbing_sensor.tscn" id="2_ph1f6"]
+[ext_resource type="PackedScene" uid="uid://rl3q5ejwhndn" path="res://scenes/player/climbing_sensor.tscn" id="3_gqjuk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w3kd"]
 height = 1.8
@@ -15,7 +15,7 @@ height = 1.8
 collision_layer = 8
 script = ExtResource("1_0g4kb")
 
-[node name="ClimbingSensor" parent="CharacterBody3D" unique_id=737243152 instance=ExtResource("2_ph1f6")]
+[node name="ClimbingSensor" parent="CharacterBody3D" unique_id=737243152 instance=ExtResource("3_gqjuk")]
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=474028701]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)

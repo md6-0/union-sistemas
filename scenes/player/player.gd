@@ -103,8 +103,8 @@ func _handle_interaction():
 		weapon = null
 
 func _handle_weapon():
-	if Input.is_action_just_pressed("shoot") and weapon != null:
-		weapon.try_shoot()
+	if Input.is_action_just_pressed("attack") and weapon != null:
+		weapon.try_attack()
 
 func take_damage(damage):
 	GameManager.player_health -= damage
