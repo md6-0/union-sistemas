@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://crvjttgf6iq5p"]
+
+[ext_resource type="Script" uid="uid://dix227tjnpl7" path="res://scenes/Weapon/Sword_weapon/sword_weapon.gd" id="1_4sj3c"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0w3kd"]
+size = Vector3(0.08, 0.08, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4sj3c"]
+albedo_color = Color(0.4, 0.15294118, 0.24705882, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_oqax5"]
+size = Vector3(0.4, 0.08, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_w8n5e"]
+size = Vector3(0.08, 0.08, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0w3kd"]
+size = Vector3(0.08, 0.08, 1.3405762)
+
+[node name="SwordWeapon" type="Node3D" unique_id=784996446]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=430970238 groups=["interactable", "weapon"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.7633503)
+collision_layer = 4
+script = ExtResource("1_4sj3c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D" unique_id=1678841483]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.21508789)
+mesh = SubResource("BoxMesh_0w3kd")
+surface_material_override/0 = SubResource("StandardMaterial3D_4sj3c")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="RigidBody3D" unique_id=58121381]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.48964393)
+mesh = SubResource("BoxMesh_oqax5")
+surface_material_override/0 = SubResource("StandardMaterial3D_4sj3c")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="RigidBody3D" unique_id=1414556210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5541141)
+mesh = SubResource("BoxMesh_w8n5e")
+surface_material_override/0 = SubResource("StandardMaterial3D_4sj3c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=840180549]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.17028809)
+shape = SubResource("BoxShape3D_0w3kd")

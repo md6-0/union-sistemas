@@ -6,6 +6,7 @@
 [ext_resource type="MeshLibrary" uid="uid://be80qgu1xn7jh" path="res://scenes/Mesh_library/tiles.meshlib" id="4_fo0if"]
 [ext_resource type="PackedScene" uid="uid://b1qrngri5630c" path="res://scenes/Weapon/Hitscan_weapon/hitscan_weapon.tscn" id="4_k4wf4"]
 [ext_resource type="PackedScene" uid="uid://c6ip77dld0xrs" path="res://scenes/Enemy/target.tscn" id="5_fubqq"]
+[ext_resource type="PackedScene" uid="uid://crvjttgf6iq5p" path="res://scenes/Weapon/Sword_weapon/sword_weapon.tscn" id="5_vl1hj"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_joneh"]
 
@@ -182,6 +183,12 @@ mesh = SubResource("BoxMesh_k4wf4")
 shape = SubResource("BoxShape3D_fubqq")
 debug_color = Color(0.84810907, 3.012985e-05, 0.61192393, 0.41960785)
 
+[node name="SwordWeapon" parent="World/NavigationRegion3D/Room/Box" unique_id=784996446 instance=ExtResource("5_vl1hj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7985687, 1.0400002, -2.911391)
+
+[node name="RigidBody3D" parent="World/NavigationRegion3D/Room/Box/SwordWeapon" index="0" unique_id=430970238]
+cooldown = 2.0
+
 [node name="Target" parent="World/NavigationRegion3D/Room" unique_id=471938338 instance=ExtResource("5_fubqq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.051834, 1.9410528, 21.9)
 
@@ -192,11 +199,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.46064, 2.491453, 21.9)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.81157, 1.9592564, 21.9)
 
 [node name="Player" parent="." unique_id=1335899736 instance=ExtResource("2_joneh")]
-transform = Transform3D(-0.057628203, 0, 0.9983381, 0, 1, 0, -0.9983381, 0, -0.057628203, 25.99807, 0.8071821, -0.042146087)
+transform = Transform3D(-0.057628203, 0, 0.9983381, 0, 1, 0, -0.9983381, 0, -0.057628203, 52.14015, 4.129673, -0.042146087)
 
 [node name="Camera3D" parent="Player/CharacterBody3D" parent_id_path=PackedInt32Array(1335899736, 1700311132) index="1" unique_id=474028701]
 current = true
 
 [editable path="World/Elevator"]
 [editable path="World/NavigationRegion3D/Room/Enemy"]
+[editable path="World/NavigationRegion3D/Room/Box/SwordWeapon"]
 [editable path="Player"]
