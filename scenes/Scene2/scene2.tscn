@@ -166,13 +166,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.06305, 2.1, -4.83356)
 
 [node name="Weapon2" parent="World/NavigationRegion3D/Room" unique_id=1184539288 instance=ExtResource("4_k4wf4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.869473, 2.1, -4.891844)
-cooldown = 0.7
-damage = 50
-
-[node name="Weapon3" parent="World/NavigationRegion3D/Room" unique_id=1782539654 instance=ExtResource("4_k4wf4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.22502, 2.1, -4.795931)
-cooldown = 1.5
-damage = 75
+cooldown = 1.0
+damage = 10
+pellets = 10
+spread = 20.0
 
 [node name="Box" type="StaticBody3D" parent="World/NavigationRegion3D/Room" unique_id=821189061 groups=["climbeable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.85332, 1, -1.4919279)

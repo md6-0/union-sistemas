@@ -36,7 +36,7 @@ func _physics_process(delta):
 		_handle_gravity(delta)
 		_handle_movement(delta)
 		_handle_interaction()
-		_handle_weapon(delta)
+		_handle_weapon()
 		
 	move_and_slide()
 
@@ -102,9 +102,9 @@ func _handle_interaction():
 		weapon.drop()
 		weapon = null
 
-func _handle_weapon(delta):
+func _handle_weapon():
 	if Input.is_action_just_pressed("shoot") and weapon != null:
-		weapon.try_shoot(delta)
+		weapon.try_shoot()
 
 func take_damage(damage):
 	GameManager.player_health -= damage

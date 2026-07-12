@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://byyl66pubwna6"]
 
+[ext_resource type="Script" uid="uid://c63xcg41advxg" path="res://scenes/Decal/bullet_hole.gd" id="1_t6rea"]
+
 [sub_resource type="Gradient" id="Gradient_iy03e"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_iy03e"]
@@ -11,3 +13,4 @@ fill_to = Vector2(1, 0.9846416)
 [node name="Decal" type="Decal" unique_id=1387457349]
 size = Vector3(0.2, 0.2, 0.2)
 texture_albedo = SubResource("GradientTexture2D_iy03e")
+script = ExtResource("1_t6rea")

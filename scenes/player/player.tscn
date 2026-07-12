@@ -12,6 +12,7 @@ height = 1.8
 [node name="Hud" parent="." unique_id=1210281293 instance=ExtResource("1_lvxji")]
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1700311132 groups=["player"]]
+collision_layer = 8
 script = ExtResource("1_0g4kb")
 
 [node name="ClimbingSensor" parent="CharacterBody3D" unique_id=737243152 instance=ExtResource("2_ph1f6")]
