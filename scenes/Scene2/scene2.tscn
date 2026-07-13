@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://c0i7jdcy8yhdk"]
 
+[ext_resource type="VoxelGIData" uid="uid://dvk0lq4nrp8vs" path="res://scenes/Scene2/scene2.VoxelGI_data.res" id="1_3moll"]
 [ext_resource type="PackedScene" uid="uid://d2rt8kylgueim" path="res://scenes/Elevator/elevator.tscn" id="1_ktaha"]
 [ext_resource type="PackedScene" uid="uid://b63t3planx2ou" path="res://scenes/Enemy/enemy.tscn" id="2_0ya8a"]
 [ext_resource type="PackedScene" uid="uid://dr1vs4qo2wqu7" path="res://scenes/player/player.tscn" id="2_joneh"]
@@ -7,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b1qrngri5630c" path="res://scenes/Weapon/Hitscan_weapon/hitscan_weapon.tscn" id="4_k4wf4"]
 [ext_resource type="PackedScene" uid="uid://c6ip77dld0xrs" path="res://scenes/Enemy/target.tscn" id="5_fubqq"]
 [ext_resource type="PackedScene" uid="uid://crvjttgf6iq5p" path="res://scenes/Weapon/Sword_weapon/sword_weapon.tscn" id="5_vl1hj"]
+[ext_resource type="PackedScene" uid="uid://dsof7oqt2qabg" path="res://scenes/Mannequin/mannequin.tscn" id="9_wlua3"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_joneh"]
 
@@ -40,9 +42,22 @@ size = Vector3(8, 2.2, 4.5)
 [node name="Scene2" type="Node3D" unique_id=427554907]
 
 [node name="Debug_Camera3D" type="Camera3D" parent="." unique_id=1350389369]
-transform = Transform3D(1, 0, 0, 0, 0.10875435, 0.9940687, 0, -0.9940687, 0.10875435, 9.998348, 24.652174, 3.6052523)
+transform = Transform3D(1, 0, 0, 0, 0.10875435, 0.9940687, 0, -0.9940687, 0.10875435, 42.626984, 24.652174, 3.6052523)
+current = true
+
+[node name="Player" parent="." unique_id=1335899736 instance=ExtResource("2_joneh")]
+transform = Transform3D(-0.057628203, 0, 0.9983381, 0, 1, 0, -0.9983381, 0, -0.057628203, 52.14015, 4.129673, -0.042146087)
+
+[node name="Camera3D" parent="Player/CharacterBody3D" parent_id_path=PackedInt32Array(1335899736, 1700311132) index="1" unique_id=474028701]
+current = true
+fov = 90.0
 
 [node name="World" type="Node3D" parent="." unique_id=691176855]
+
+[node name="VoxelGI" type="VoxelGI" parent="World" unique_id=793198007]
+transform = Transform3D(-0.057628207, 0, 0.99833816, 0, 1, 0, -0.99833816, 0, -0.057628207, 34.298492, 4.729673, 4.6286893)
+size = Vector3(80.897705, 20, 92.1438)
+data = ExtResource("1_3moll")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="World" unique_id=598486895]
 transform = Transform3D(1, 0, 0, 0, 0.42261824, 0.9063078, 0, -0.9063078, 0.42261824, 0, 24.290844, 11.865432)
@@ -172,6 +187,12 @@ spread = 20.0
 cooldown = 1.0
 damage = 10
 
+[node name="SwordWeapon" parent="World/NavigationRegion3D/Room" unique_id=784996446 instance=ExtResource("5_vl1hj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.65189, 2.0400002, -4.403319)
+
+[node name="RigidBody3D" parent="World/NavigationRegion3D/Room/SwordWeapon" index="0" unique_id=430970238]
+cooldown = 1.0
+
 [node name="Box" type="StaticBody3D" parent="World/NavigationRegion3D/Room" unique_id=821189061 groups=["climbeable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.85332, 1, -1.4919279)
 collision_layer = 3
@@ -183,12 +204,6 @@ mesh = SubResource("BoxMesh_k4wf4")
 shape = SubResource("BoxShape3D_fubqq")
 debug_color = Color(0.84810907, 3.012985e-05, 0.61192393, 0.41960785)
 
-[node name="SwordWeapon" parent="World/NavigationRegion3D/Room/Box" unique_id=784996446 instance=ExtResource("5_vl1hj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7985687, 1.0400002, -2.911391)
-
-[node name="RigidBody3D" parent="World/NavigationRegion3D/Room/Box/SwordWeapon" index="0" unique_id=430970238]
-cooldown = 2.0
-
 [node name="Target" parent="World/NavigationRegion3D/Room" unique_id=471938338 instance=ExtResource("5_fubqq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.051834, 1.9410528, 21.9)
 
@@ -198,13 +213,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.46064, 2.491453, 21.9)
 [node name="Target3" parent="World/NavigationRegion3D/Room" unique_id=790104917 instance=ExtResource("5_fubqq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.81157, 1.9592564, 21.9)
 
-[node name="Player" parent="." unique_id=1335899736 instance=ExtResource("2_joneh")]
-transform = Transform3D(-0.057628203, 0, 0.9983381, 0, 1, 0, -0.9983381, 0, -0.057628203, 52.14015, 4.129673, -0.042146087)
+[node name="StaticBody3D" parent="World" unique_id=682837050 instance=ExtResource("9_wlua3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 47.189945, 1, 13.7939)
 
-[node name="Camera3D" parent="Player/CharacterBody3D" parent_id_path=PackedInt32Array(1335899736, 1700311132) index="1" unique_id=474028701]
-current = true
+[node name="StaticBody3D2" parent="World" unique_id=1079047060 instance=ExtResource("9_wlua3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 47.36128, 1, 16.708199)
 
+[node name="StaticBody3D3" parent="World" unique_id=427690425 instance=ExtResource("9_wlua3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 47.409878, 1, 19.78491)
+
+[editable path="Player"]
 [editable path="World/Elevator"]
 [editable path="World/NavigationRegion3D/Room/Enemy"]
-[editable path="World/NavigationRegion3D/Room/Box/SwordWeapon"]
-[editable path="Player"]
+[editable path="World/NavigationRegion3D/Room/SwordWeapon"]

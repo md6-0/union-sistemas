@@ -2,8 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dix227tjnpl7" path="res://scenes/Weapon/Sword_weapon/sword_weapon.gd" id="1_4sj3c"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w3kd"]
+radius = 0.19970703
+height = 2.523047
+
 [sub_resource type="BoxMesh" id="BoxMesh_0w3kd"]
-size = Vector3(0.08, 0.08, 1.2)
+size = Vector3(0.08, 0.08, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4sj3c"]
 albedo_color = Color(0.4, 0.15294118, 0.24705882, 1)
@@ -15,7 +19,7 @@ size = Vector3(0.4, 0.08, 0.08)
 size = Vector3(0.08, 0.08, 0.4)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0w3kd"]
-size = Vector3(0.08, 0.08, 1.3405762)
+size = Vector3(0.46860838, 0.08, 2.711975)
 
 [node name="SwordWeapon" type="Node3D" unique_id=784996446]
 
@@ -24,21 +28,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.7633503)
 collision_layer = 4
 script = ExtResource("1_4sj3c")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D" unique_id=1678841483]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.21508789)
+[node name="Area3D_hitbox" type="Area3D" parent="RigidBody3D" unique_id=1576003965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.7633503)
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D/Area3D_hitbox" unique_id=1266324559]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -2.0173832e-08, -1.5615236)
+shape = SubResource("CapsuleShape3D_0w3kd")
+
+[node name="3DModel" type="Node3D" parent="RigidBody3D" unique_id=1126208103]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D/3DModel" unique_id=1678841483]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6196777)
 mesh = SubResource("BoxMesh_0w3kd")
 surface_material_override/0 = SubResource("StandardMaterial3D_4sj3c")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="RigidBody3D" unique_id=58121381]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="RigidBody3D/3DModel" unique_id=58121381]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.48964393)
 mesh = SubResource("BoxMesh_oqax5")
 surface_material_override/0 = SubResource("StandardMaterial3D_4sj3c")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="RigidBody3D" unique_id=1414556210]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="RigidBody3D/3DModel" unique_id=1414556210]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5541141)
 mesh = SubResource("BoxMesh_w8n5e")
 surface_material_override/0 = SubResource("StandardMaterial3D_4sj3c")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=840180549]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.17028809)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.014230959, 0, -0.5722961)
 shape = SubResource("BoxShape3D_0w3kd")
