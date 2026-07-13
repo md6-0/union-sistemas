@@ -3,11 +3,12 @@ extends StaticBody3D
 enum State {IDLE, BLOCK}
 
 @onready var label_health = $Label3D_health
-@onready var shield = $StaticBody3D_shield
+@onready var shield = $MeshInstance3D_Shield
 var health = 10000
 var current_state
 var current_time_in_state = 0.0
 var max_time_in_state_state = 3
+var max_parry_time = 0.3
 
 var idle_shield_rotation
 var idle_shield_position
@@ -44,7 +45,6 @@ func _handle_block_state(delta):
 
 func _change_state(new_state):
 	current_state = new_state
-	
 	if shield_tween and shield_tween.is_running(): 
 		shield_tween.kill()
 
@@ -59,13 +59,21 @@ func _change_state(new_state):
 			shield_tween.tween_property(shield, "rotation", block_shield_rotation, 0.3)
 			shield_tween.tween_property(shield, "position", block_shield_position, 0.3)
 
-func take_damage(damage, from_position = null):
+func take_damage(damage, from_position = null, holder = null):
 	if current_state == State.BLOCK and from_position != null:
 		var vector_to_attack = (from_position - global_position)
 		vector_to_attack.y = 0 
 		var vector_forward = -global_transform.basis.z
 		if vector_forward.angle_to(vector_to_attack) < deg_to_rad(80):
+			if current_time_in_state <= max_parry_time and holder != null:
+				_disarm.call_deferred(holder,vector_to_attack)
 			return
-
+			
 	health -= damage
 	label_health.text = str(health)
+
+
+func _disarm(holder, vector_to_attack):
+	var w = holder.weapon
+	holder.drop_weapon()
+	w.apply_central_impulse((vector_to_attack.normalized() + Vector3.UP) * 5)

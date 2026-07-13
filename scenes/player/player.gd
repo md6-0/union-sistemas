@@ -94,17 +94,21 @@ func _handle_interaction():
 		if collider.is_in_group("weapon"):
 			if weapon != null:
 				weapon.drop()
-			collider.pick_up(camera)
+			collider.pick_up(camera, self)
 			weapon = collider
 		elif collider.is_in_group("interactable"):
 			collider.interact(camera)
-	elif Input.is_action_just_pressed("drop") and weapon != null:
-		weapon.drop()
-		weapon = null
-
+	if Input.is_action_just_pressed("drop"):
+		drop_weapon()
+	
 func _handle_weapon():
 	if Input.is_action_just_pressed("attack") and weapon != null:
 		weapon.try_attack()
+
+func drop_weapon():
+	if weapon != null:
+		weapon.drop()
+		weapon = null
 
 func take_damage(damage):
 	GameManager.player_health -= damage

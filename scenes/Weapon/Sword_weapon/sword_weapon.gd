@@ -11,8 +11,8 @@ var already_hit = []
 func _ready():
 	area3D_hitbox.body_entered.connect(_on_area3D_hitbox_body_entered)
 
-func pick_up(camera):
-	super.pick_up(camera)
+func pick_up(camera, new_holder = null):
+	super.pick_up(camera, new_holder)
 	position = Vector3(-.5,-.5,-.5)
 	rotation = Vector3(deg_to_rad(80), deg_to_rad(-25), 0)
 	original_rotation = rotation
@@ -34,7 +34,7 @@ func try_attack():
 		attack_tween.tween_property(self, "rotation:x", original_rotation.x - deg_to_rad(60), 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		attack_tween.tween_property(self, "rotation:y", original_rotation.y - deg_to_rad(60), 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		attack_tween.tween_property(self, "position:x", original_position.x + 2, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-		attack_tween.tween_property(self, "position:z", original_position.x - 2.5, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		attack_tween.tween_property(self, "position:z", original_position.z - 2.5, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		# apagamos la hitbox
 		attack_tween.chain().tween_callback(func(): area3D_hitbox.monitoring = false)
 		# tajo - vuelta a la posición original
@@ -47,4 +47,4 @@ func _on_area3D_hitbox_body_entered(body):
 		
 	already_hit.append(body) 
 	if body.is_in_group("enemy"):
-		body.take_damage(damage, global_position)
+		body.take_damage(damage, global_position, holder)

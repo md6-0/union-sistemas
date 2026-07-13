@@ -156,7 +156,7 @@ func _can_see_player():
 			else:
 				return false
 
-func take_damage(damage):
+func take_damage(damage, _from_position = null, _holder = null):
 	_change_state(State.CHASE)
 	health -= damage
 	label_enemy_health.text = str(health)

@@ -48,7 +48,10 @@ current = true
 [node name="Player" parent="." unique_id=1335899736 instance=ExtResource("2_joneh")]
 transform = Transform3D(-0.057628203, 0, 0.9983381, 0, 1, 0, -0.9983381, 0, -0.057628203, 52.14015, 4.129673, -0.042146087)
 
-[node name="Camera3D" parent="Player/CharacterBody3D" parent_id_path=PackedInt32Array(1335899736, 1700311132) index="1" unique_id=474028701]
+[node name="CharacterBody3D" parent="Player" index="1" unique_id=1700311132]
+transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, -0.8485184, 0)
+
+[node name="Camera3D" parent="Player/CharacterBody3D" index="1" unique_id=474028701]
 current = true
 fov = 90.0
 
