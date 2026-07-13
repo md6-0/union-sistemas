@@ -49,7 +49,7 @@ current = true
 transform = Transform3D(-0.057628203, 0, 0.9983381, 0, 1, 0, -0.9983381, 0, -0.057628203, 52.14015, 4.129673, -0.042146087)
 
 [node name="CharacterBody3D" parent="Player" index="1" unique_id=1700311132]
-transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, -0.8485184, 0)
+transform = Transform3D(1.000001, 0, -7.450581e-09, 0, 1, 0, 7.450581e-09, 0, 1.000001, 1.5230985, -3.1422877, -26.385828)
 
 [node name="Camera3D" parent="Player/CharacterBody3D" index="1" unique_id=474028701]
 current = true
@@ -57,22 +57,22 @@ fov = 90.0
 
 [node name="World" type="Node3D" parent="." unique_id=691176855]
 
-[node name="VoxelGI" type="VoxelGI" parent="World" unique_id=793198007]
-transform = Transform3D(-0.057628207, 0, 0.99833816, 0, 1, 0, -0.99833816, 0, -0.057628207, 34.298492, 4.729673, 4.6286893)
-size = Vector3(80.897705, 20, 92.1438)
-data = ExtResource("1_3moll")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World" unique_id=598486895]
-transform = Transform3D(1, 0, 0, 0, 0.42261824, 0.9063078, 0, -0.9063078, 0.42261824, 0, 24.290844, 11.865432)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="World" unique_id=1230681223]
-environment = SubResource("Environment_0ya8a")
-
 [node name="Elevator" parent="World" unique_id=692422693 instance=ExtResource("1_ktaha")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.030085, 1.2657204, -1.0906724)
 
 [node name="AnimatableBody3D" parent="World/Elevator" index="0" unique_id=1020956976]
 travel_lenght = 30
+
+[node name="VoxelGI" type="VoxelGI" parent="World" unique_id=793198007]
+transform = Transform3D(-0.057628207, 0, 0.99833816, 0, 1, 0, -0.99833816, 0, -0.057628207, 27.494205, 4.729673, 5.021461)
+size = Vector3(80.897705, 20, 105.775024)
+data = ExtResource("1_3moll")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World" unique_id=598486895]
+transform = Transform3D(1, 0, 0, 0, 0.42261824, 0.9063078, 0, -0.9063078, 0.42261824, 0, 31.592344, 11.865432)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="World" unique_id=1230681223]
+environment = SubResource("Environment_0ya8a")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="World" unique_id=2009601581]
 navigation_mesh = SubResource("NavigationMesh_0ya8a")

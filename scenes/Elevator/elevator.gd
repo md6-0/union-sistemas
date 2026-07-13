@@ -1,11 +1,16 @@
 extends AnimatableBody3D
 
 @export var travel_lenght = 10
+@export_file("*.tscn") var destination_scene: String = ""
 
 @onready var origin_position_y = global_position.y
 @onready var destination_position_y = global_position.y + travel_lenght
 var is_in_origin = true
 var is_transitioning = false
+
+func _process(_delta):
+	if destination_scene != "" and !is_in_origin and !is_transitioning:
+		get_tree().change_scene_to_file(destination_scene)
 
 func activate():
 	if is_transitioning:

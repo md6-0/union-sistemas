@@ -68,6 +68,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.030085, 1.2657204, -1.0906
 
 [node name="AnimatableBody3D" parent="World/Hallway/Elevator" index="0" unique_id=1020956976]
 travel_lenght = 30
+destination_scene = "uid://c0i7jdcy8yhdk"
 
 [node name="Hallway_objects" type="Node3D" parent="World" unique_id=863064085]
 
