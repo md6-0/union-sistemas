@@ -31,6 +31,7 @@ script = ExtResource("1_4sj3c")
 
 [node name="AudioStreamPlayer_hit" type="AudioStreamPlayer" parent="RigidBody3D" unique_id=1867558146]
 stream = ExtResource("2_57isl")
+bus = &"SFX"
 
 [node name="Area3D_hitbox" type="Area3D" parent="RigidBody3D" unique_id=1576003965]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.7633503)

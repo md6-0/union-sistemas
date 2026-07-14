@@ -18,10 +18,12 @@ var player_state = State.NORMAL
 var bob_time = 0.0
 var is_sprinting = false
 var weapon
+var footstep_played = false
 
 @onready var camera = $Camera3D
 @onready var climbing_sensor = $ClimbingSensor
 @onready var ray_interactable = $Camera3D/RayCast3D_interactable
+@onready var audioStreamPlayer_footsteps = $AudioStreamPlayer
 @onready var camera_origin_y = camera.position.y
 
 func _ready():
@@ -131,5 +133,14 @@ func _handle_bob(delta: float, is_moving: bool):
 	if is_moving and is_on_floor():
 		bob_time += delta * frequency
 		camera.position.y = (sin(bob_time) * BOB_AMPLITUDE) + camera_origin_y
+		var bob = sin(bob_time)
+		if bob < -0.9 and not footstep_played:
+			footstep_played = true
+			audioStreamPlayer_footsteps.pitch_scale = randf_range(0.8, 1.2)
+			audioStreamPlayer_footsteps.play()
+		elif bob > 0.9 :
+			footstep_played = false
+
+		
 	else:
 		camera.position.y = move_toward(camera.position.y, camera_origin_y, BOB_AMPLITUDE * delta * 4)

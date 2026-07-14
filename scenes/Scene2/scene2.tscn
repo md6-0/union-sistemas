@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://crvjttgf6iq5p" path="res://scenes/Weapon/Sword_weapon/sword_weapon.tscn" id="5_vl1hj"]
 [ext_resource type="AudioStream" uid="uid://wsrrjnpklct5" path="res://Audio/Weapons/gunshot_fire.ogg" id="7_sc41r"]
 [ext_resource type="PackedScene" uid="uid://dsof7oqt2qabg" path="res://scenes/Mannequin/mannequin.tscn" id="9_wlua3"]
+[ext_resource type="AudioStream" uid="uid://ckr0evwabc6ic" path="res://Audio/Ambient/ambient.ogg" id="11_0mxgs"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_joneh"]
 
@@ -250,6 +251,13 @@ surface_material_override/0 = SubResource("StandardMaterial3D_sc41r")
 
 [node name="StaticBody3D" parent="World" unique_id=555739417 instance=ExtResource("9_wlua3")]
 transform = Transform3D(0.8104014, 0, -0.58587503, 0, 1, 0, 0.58587503, 0, 0.8104014, 47.47304, 0.9857502, 18.875525)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1761468339]
+stream = ExtResource("11_0mxgs")
+volume_db = -18.0
+autoplay = true
+bus = &"Music"
+parameters/looping = true
 
 [editable path="Player"]
 [editable path="World/Elevator"]

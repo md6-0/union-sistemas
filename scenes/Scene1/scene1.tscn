@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://d2rt8kylgueim" path="res://scenes/Elevator/elevator.tscn" id="2_5ig07"]
 [ext_resource type="PackedScene" uid="uid://x3okxjas4vwv" path="res://scenes/Door/door.tscn" id="3_21n4o"]
 [ext_resource type="PackedScene" uid="uid://c31psquiq8xik" path="res://scenes/Key/key.tscn" id="4_no02f"]
+[ext_resource type="AudioStream" uid="uid://ckr0evwabc6ic" path="res://Audio/Ambient/ambient.ogg" id="5_5ig07"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_frw8u"]
 
@@ -105,6 +106,13 @@ debug_color = Color(0.84810907, 3.012985e-05, 0.61192393, 0.41960785)
 
 [node name="Key" parent="World/Hallway_objects" unique_id=2030183203 instance=ExtResource("4_no02f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.37606, 0.024999812, 1.1687477)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=93826136]
+stream = ExtResource("5_5ig07")
+volume_db = -18.0
+autoplay = true
+bus = &"Music"
+parameters/looping = true
 
 [editable path="World/Hallway/Elevator"]
 [editable path="World/Hallway_objects/Door"]

@@ -28,3 +28,4 @@ shape = SubResource("BoxShape3D_0w3kd")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1577210529]
 stream = ExtResource("2_fvmae")
+bus = &"SFX"

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dnmq8elev0jq7" path="res://scenes/player/player.gd" id="1_0g4kb"]
 [ext_resource type="PackedScene" uid="uid://brpucg70ub140" path="res://scenes/HUD/hud.tscn" id="1_lvxji"]
 [ext_resource type="PackedScene" uid="uid://rl3q5ejwhndn" path="res://scenes/player/climbing_sensor.tscn" id="3_gqjuk"]
+[ext_resource type="AudioStream" uid="uid://dns141xtvrp6l" path="res://Audio/Player/footstep.ogg" id="4_lvxji"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w3kd"]
 height = 1.8
@@ -29,3 +30,8 @@ debug_shape_thickness = 5
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1213606969]
 shape = SubResource("CapsuleShape3D_0w3kd")
 debug_color = Color(0.95686275, 0, 0, 0.41960785)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CharacterBody3D" unique_id=413135259]
+stream = ExtResource("4_lvxji")
+volume_db = -15.0
+bus = &"SFX"
