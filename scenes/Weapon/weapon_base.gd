@@ -6,6 +6,7 @@ class_name WeaponBase extends RigidBody3D
 @onready var collisionShape = $CollisionShape3D
 @onready var original_parent = get_parent()
 
+
 var holder
 
 
@@ -20,12 +21,13 @@ func pick_up(camera, new_holder = null):
 	holder = new_holder
 	position = Vector3(0,-.5,-.5)
 	rotation = Vector3.ZERO
-
+		
 func drop():
-		freeze = false
-		collisionShape.disabled = false
-		holder = null
-		reparent(original_parent)
+	freeze = false
+	collisionShape.disabled = false
+	holder = null
+	reparent(original_parent)
+
 		
 func try_attack():
 	pass

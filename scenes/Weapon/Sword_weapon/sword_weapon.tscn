@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dix227tjnpl7" path="res://scenes/Weapon/Sword_weapon/sword_weapon.gd" id="1_4sj3c"]
 [ext_resource type="AudioStream" uid="uid://bvvl4bruqu0t2" path="res://Audio/Weapons/sword_slice.ogg" id="2_57isl"]
+[ext_resource type="AudioStream" uid="uid://chyixunjfc1jm" path="res://Audio/Player/pickup.ogg" id="3_qu4qf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w3kd"]
 radius = 0.19970703
@@ -31,6 +32,10 @@ script = ExtResource("1_4sj3c")
 
 [node name="AudioStreamPlayer_hit" type="AudioStreamPlayer" parent="RigidBody3D" unique_id=1867558146]
 stream = ExtResource("2_57isl")
+bus = &"SFX"
+
+[node name="AudioStreamPlayer_pickup" type="AudioStreamPlayer" parent="RigidBody3D" unique_id=1499035695]
+stream = ExtResource("3_qu4qf")
 bus = &"SFX"
 
 [node name="Area3D_hitbox" type="Area3D" parent="RigidBody3D" unique_id=1576003965]

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c31psquiq8xik"]
 
 [ext_resource type="Script" uid="uid://cglq5kgfmh5g4" path="res://scenes/Key/key.gd" id="1_g2w5j"]
+[ext_resource type="AudioStream" uid="uid://chyixunjfc1jm" path="res://Audio/Player/pickup.ogg" id="2_0to4e"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0w3kd"]
 size = Vector3(0.15, 0.15, 0.3)
@@ -19,3 +20,7 @@ mesh = SubResource("BoxMesh_0w3kd")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1897945792]
 shape = SubResource("BoxShape3D_6gqs7")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="StaticBody3D" unique_id=1133306807]
+stream = ExtResource("2_0to4e")
+bus = &"SFX"

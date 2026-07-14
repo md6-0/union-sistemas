@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://x3okxjas4vwv"]
 
 [ext_resource type="Script" uid="uid://ljh0ju4y7rk" path="res://scenes/Door/door.gd" id="1_sik3a"]
+[ext_resource type="AudioStream" uid="uid://cyawrb5prwybp" path="res://Audio/Player/door_opening_closing.ogg" id="2_choqv"]
+[ext_resource type="AudioStream" uid="uid://dchexwemwxwxf" path="res://Audio/Player/door_blocked.ogg" id="3_jl38d"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0w3kd"]
 size = Vector3(2, 3, 0.1)
@@ -22,3 +24,11 @@ mesh = SubResource("BoxMesh_0w3kd")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1415727588]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 shape = SubResource("BoxShape3D_066lh")
+
+[node name="AudioStreamPlayer_open" type="AudioStreamPlayer" parent="StaticBody3D" unique_id=938158197]
+stream = ExtResource("2_choqv")
+bus = &"SFX"
+
+[node name="AudioStreamPlayer_blocked" type="AudioStreamPlayer" parent="StaticBody3D" unique_id=1871555401]
+stream = ExtResource("3_jl38d")
+bus = &"SFX"

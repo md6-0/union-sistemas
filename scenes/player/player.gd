@@ -23,7 +23,8 @@ var footstep_played = false
 @onready var camera = $Camera3D
 @onready var climbing_sensor = $ClimbingSensor
 @onready var ray_interactable = $Camera3D/RayCast3D_interactable
-@onready var audioStreamPlayer_footsteps = $AudioStreamPlayer
+@onready var audioStreamPlayer_footsteps = $AudioStreamPlayer_footsteps
+@onready var audioStreamPlayer_voice = $AudioStreamPlayer_voice
 @onready var camera_origin_y = camera.position.y
 
 func _ready():
@@ -50,6 +51,8 @@ func _handle_movement(delta):
 	
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		audioStreamPlayer_voice.pitch_scale = randf_range(0.9, 1.1)
+		audioStreamPlayer_voice.play()
 		
 	var look_dir = Input.get_vector("look_left", "look_right", "look_up", "look_down")
 	_handle_camera(look_dir.x, look_dir.y, JOYSTICK_SENSITIVITY)

@@ -16,7 +16,7 @@ func _ready():
 func pick_up(camera, new_holder = null):
 	super.pick_up(camera, new_holder)
 	ray_shoot.position = -position
-	
+
 
 func try_attack():
 	if time_since_last_attack >= cooldown:

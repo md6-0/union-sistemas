@@ -6,6 +6,8 @@ var attack_tween
 
 @onready var area3D_hitbox = $Area3D_hitbox
 @onready var audioStreamPlayer_hit = $AudioStreamPlayer_hit
+@onready var audioStreamPlayer_pickup = $AudioStreamPlayer_pickup
+
 var already_hit = []
 
 
@@ -18,12 +20,16 @@ func pick_up(camera, new_holder = null):
 	rotation = Vector3(deg_to_rad(80), deg_to_rad(-25), 0)
 	original_rotation = rotation
 	original_position = position
+	audioStreamPlayer_pickup.pitch_scale = randf_range(0.9, 1.1)
+	audioStreamPlayer_pickup.play()
 	
 func drop():
 	super.drop()
 	if attack_tween and attack_tween.is_running():
 		attack_tween.kill()
 	area3D_hitbox.monitoring = false
+	audioStreamPlayer_pickup.pitch_scale = randf_range(0.9, 1.1)
+	audioStreamPlayer_pickup.play()
 
 func try_attack():
 	if time_since_last_attack >= cooldown:
