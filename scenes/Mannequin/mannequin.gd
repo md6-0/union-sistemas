@@ -17,7 +17,7 @@ enum FeedbackType { HIT, BLOCKED, PARRY }
 var health = 10000
 var current_state
 var current_time_in_state = 0.0
-var max_time_in_state_state = 3
+var max_time_in_state = 3
 var max_parry_time = .3
 
 var idle_shield_rotation
@@ -48,12 +48,12 @@ func _handle_state(delta):
 
 func _handle_idle_state(delta):
 	current_time_in_state += delta
-	if current_time_in_state >= max_time_in_state_state:
+	if current_time_in_state >= max_time_in_state:
 		_change_state(State.BLOCK)
 
 func _handle_block_state(delta):
 	current_time_in_state += delta
-	if current_time_in_state >= max_time_in_state_state:
+	if current_time_in_state >= max_time_in_state:
 		_change_state(State.IDLE)
 
 func _change_state(new_state):
@@ -104,28 +104,28 @@ func _hit_feedback(feedback_type):
 			feedback_tween_body.tween_property(body_mesh, "scale", Vector3(1.15, 1.15, 1.15), 0.05)
 			feedback_tween_body.tween_property(body_material, "albedo_color", Color("#f92a53e3") , 0.05)
 			feedback_tween_body.chain().tween_property(body_mesh, "scale", Vector3.ONE, 0.15)
-			feedback_tween_body.tween_property(body_material, "albedo_color", Color(body_base_color) , 0.15)
+			feedback_tween_body.tween_property(body_material, "albedo_color", body_base_color, 0.15)
 			
 		FeedbackType.PARRY:
 			if feedback_tween_shield and feedback_tween_shield.is_running():
 				feedback_tween_shield.kill()
-				
+
 			feedback_tween_shield = create_tween().set_parallel(true)
 			feedback_tween_shield.tween_property(shield_mesh, "scale", Vector3(1.5, 1.5, 1.5), 0.05)
-			feedback_tween_shield.tween_property(shield_material, "emission", Color.WHITE, 0.1)
-			feedback_tween_shield.tween_property(shield_material, "albedo_color", Color("#f92a53e3") , 0.1)
+			feedback_tween_shield.tween_property(shield_material, "emission", Color(2.0, 1.7, 0.5), 0.1)
+			feedback_tween_shield.tween_property(shield_material, "albedo_color", Color("#e5d41de3") , 0.1)
 			feedback_tween_shield.chain().tween_property(shield_mesh, "scale", Vector3.ONE, 0.15)
 			feedback_tween_shield.tween_property(shield_material, "emission", Color.BLACK, 0.2)
-			feedback_tween_shield.tween_property(shield_material, "albedo_color", Color(shield_base_color) , 0.15)
+			feedback_tween_shield.tween_property(shield_material, "albedo_color", shield_base_color, 0.15)
 			
 		FeedbackType.BLOCKED:
 			if feedback_tween_shield and feedback_tween_shield.is_running():
 				feedback_tween_shield.kill()
-				
+
 			feedback_tween_shield = create_tween().set_parallel(true)
 			feedback_tween_shield.tween_property(shield_mesh, "scale", Vector3(1.3, 1.15, 1.3), 0.05)
 			feedback_tween_shield.tween_property(shield_material, "emission", Color.WHITE, 0.1)
-			feedback_tween_shield.tween_property(shield_material, "albedo_color", Color("e5d41de3") , 0.05)
+			feedback_tween_shield.tween_property(shield_material, "albedo_color", Color("#ffffffe3") , 0.05)
 			feedback_tween_shield.chain().tween_property(shield_mesh, "scale", Vector3.ONE, 0.15)
 			feedback_tween_shield.tween_property(shield_material, "emission", Color.BLACK, 0.2)
-			feedback_tween_shield.tween_property(shield_material, "albedo_color", Color(shield_base_color) , 0.15)
+			feedback_tween_shield.tween_property(shield_material, "albedo_color", shield_base_color, 0.15)
