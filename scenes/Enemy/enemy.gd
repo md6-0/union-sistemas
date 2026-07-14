@@ -162,3 +162,4 @@ func take_damage(damage, _from_position = null, _holder = null, _allow_parry = f
 	label_enemy_health.text = str(health)
 	if health <= 0:
 		queue_free()
+	return true

@@ -83,11 +83,12 @@ func take_damage(damage, from_position = null, holder = null, allow_parry = fals
 				_hit_feedback(FeedbackType.PARRY)
 			else:
 				_hit_feedback(FeedbackType.BLOCKED)
-			return
+			return false
 			
 	health -= damage
 	label_health.text = str(health)
 	_hit_feedback(FeedbackType.HIT)
+	return true
 
 func _disarm(holder, vector_to_attack):
 	var w = holder.weapon
