@@ -17,6 +17,7 @@ func try_attack():
 	if time_since_last_attack >= cooldown:
 		time_since_last_attack = 0
 		GameManager.weapon_fired.emit()
+		var any_hit = false
 		for x in pellets:
 			ray_shoot.target_position = ray_shoot_original_target_position + Vector3(randf_range(-spread, spread), randf_range(-spread, spread), 0)
 			ray_shoot.force_raycast_update()
@@ -24,8 +25,8 @@ func try_attack():
 				var collider = ray_shoot.get_collider()
 				if collider != null and collider.is_in_group("enemy"):
 					var was_damage = collider.take_damage(damage, global_position, holder, false)
-					if x == 0 and was_damage:
-						GameManager.enemy_hit.emit()
+					if was_damage:
+						any_hit = true
 					
 				var hole = BULLET_HOLE.instantiate()
 				collider.add_child(hole)   
@@ -38,3 +39,6 @@ func try_attack():
 				hole.rotate_object_local(Vector3.RIGHT, -PI/2)
 				
 			ray_shoot.target_position = ray_shoot_original_target_position
+			
+		if any_hit:
+			GameManager.enemy_hit.emit()

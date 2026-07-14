@@ -16,7 +16,6 @@ func _handle_health(health):
 	progressbar_player_health.value = health
 
 func _handle_weapon_fired():
-	print("FIRED")
 	if reticula_tween_fired and reticula_tween_fired.is_running():
 		reticula_tween_fired.kill()
 	reticula_tween_fired = create_tween().set_parallel(true)
@@ -27,7 +26,6 @@ func _handle_weapon_fired():
 
 	
 func _handle_enemy_hit():
-	print("HIT")
 	if reticula_tween_fired and reticula_tween_fired.is_running():
 		reticula_tween_fired.kill()
 	reticula_tween_fired = create_tween().set_parallel(true)
