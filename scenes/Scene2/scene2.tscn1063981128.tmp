@@ -39,21 +39,6 @@ size = Vector3(8, 2.2, 4.25)
 [sub_resource type="BoxShape3D" id="BoxShape3D_fubqq"]
 size = Vector3(8, 2.2, 4.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wlua3"]
-albedo_color = Color(0.6431373, 0.6431373, 0.9843137, 0.8901961)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_wlua3"]
-material = SubResource("StandardMaterial3D_wlua3")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sc41r"]
-albedo_color = Color(0.67481464, 0.67481464, 0.6748146, 1)
-emission_enabled = true
-emission_energy_multiplier = 2.0
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_0mxgs"]
-material = SubResource("StandardMaterial3D_sc41r")
-height = 0.15
-
 [node name="Scene2" type="Node3D" unique_id=427554907]
 
 [node name="Debug_Camera3D" type="Camera3D" parent="." unique_id=1350389369]
@@ -231,21 +216,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.46064, 2.491453, 21.9)
 [node name="Target3" parent="World/NavigationRegion3D/Room" unique_id=790104917 instance=ExtResource("5_fubqq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.81157, 1.9592564, 21.9)
 
-[node name="Man1" parent="World" unique_id=682837050 instance=ExtResource("9_wlua3")]
+[node name="StaticBody3D" parent="World" unique_id=682837050 instance=ExtResource("9_wlua3")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 47.189945, 1, 13.7939)
 
-[node name="MeshInstance3D_body" parent="World/Man1" index="1" unique_id=945730137]
-mesh = SubResource("CapsuleMesh_wlua3")
+[node name="StaticBody3D2" parent="World" unique_id=1079047060 instance=ExtResource("9_wlua3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 47.36128, 1, 16.708199)
 
-[node name="MeshInstance3D_Shield" parent="World/Man1" index="2" unique_id=894255554]
-mesh = SubResource("CylinderMesh_0mxgs")
-surface_material_override/0 = SubResource("StandardMaterial3D_sc41r")
-
-[node name="StaticBody3D" parent="World" unique_id=555739417 instance=ExtResource("9_wlua3")]
-transform = Transform3D(0.8104014, 0, -0.58587503, 0, 1, 0, 0.58587503, 0, 0.8104014, 47.47304, 0.9857502, 18.875525)
+[node name="StaticBody3D3" parent="World" unique_id=427690425 instance=ExtResource("9_wlua3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 47.409878, 1, 19.78491)
 
 [editable path="Player"]
 [editable path="World/Elevator"]
 [editable path="World/NavigationRegion3D/Room/Enemy"]
 [editable path="World/NavigationRegion3D/Room/SwordWeapon"]
-[editable path="World/Man1"]

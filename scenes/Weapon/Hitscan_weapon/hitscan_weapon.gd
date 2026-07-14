@@ -8,6 +8,10 @@ class_name HitscanWeapon extends WeaponBase
 
 const BULLET_HOLE = preload("res://scenes/Decal/bullet_hole.tscn")
 
+func pick_up(camera, new_holder = null):
+	super.pick_up(camera, new_holder)
+	ray_shoot.position -= position
+	
 
 func try_attack():
 	if time_since_last_attack >= cooldown:
@@ -18,7 +22,7 @@ func try_attack():
 			if ray_shoot.is_colliding():
 				var collider = ray_shoot.get_collider()
 				if collider != null and collider.is_in_group("enemy"):
-					collider.take_damage(damage, global_position, holder)
+					collider.take_damage(damage, global_position, holder, false)
 				
 				var hole = BULLET_HOLE.instantiate()
 				collider.add_child(hole)   

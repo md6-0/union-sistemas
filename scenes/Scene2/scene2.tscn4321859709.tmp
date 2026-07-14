@@ -46,13 +46,8 @@ albedo_color = Color(0.6431373, 0.6431373, 0.9843137, 0.8901961)
 material = SubResource("StandardMaterial3D_wlua3")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sc41r"]
+resource_local_to_scene = true
 albedo_color = Color(0.67481464, 0.67481464, 0.6748146, 1)
-emission_enabled = true
-emission_energy_multiplier = 2.0
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_0mxgs"]
-material = SubResource("StandardMaterial3D_sc41r")
-height = 0.15
 
 [node name="Scene2" type="Node3D" unique_id=427554907]
 
@@ -238,11 +233,7 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 47.1
 mesh = SubResource("CapsuleMesh_wlua3")
 
 [node name="MeshInstance3D_Shield" parent="World/Man1" index="2" unique_id=894255554]
-mesh = SubResource("CylinderMesh_0mxgs")
 surface_material_override/0 = SubResource("StandardMaterial3D_sc41r")
-
-[node name="StaticBody3D" parent="World" unique_id=555739417 instance=ExtResource("9_wlua3")]
-transform = Transform3D(0.8104014, 0, -0.58587503, 0, 1, 0, 0.58587503, 0, 0.8104014, 47.47304, 0.9857502, 18.875525)
 
 [editable path="Player"]
 [editable path="World/Elevator"]

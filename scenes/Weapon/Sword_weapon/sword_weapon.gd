@@ -47,4 +47,4 @@ func _on_area3D_hitbox_body_entered(body):
 		
 	already_hit.append(body) 
 	if body.is_in_group("enemy"):
-		body.take_damage(damage, global_position, holder)
+		body.take_damage(damage, global_position, holder, true)

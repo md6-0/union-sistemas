@@ -6,16 +6,39 @@
 script = ExtResource("1_c0cnr")
 
 [node name="Label_player_health" type="Label" parent="." unique_id=240138362]
-offset_left = 484.0
-offset_top = 18.0
-offset_right = 629.0
-offset_bottom = 67.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -546.0
+offset_top = 561.0
+offset_right = -487.5
+offset_bottom = 610.0
+grow_horizontal = 2
+size_flags_horizontal = 4
 text = "Health
 "
 
 [node name="ProgressBar_player_health" type="ProgressBar" parent="." unique_id=1306229802]
 unique_name_in_owner = true
-offset_left = 344.0
-offset_top = 48.0
-offset_right = 689.0
-offset_bottom = 75.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -549.0
+offset_top = 588.0
+offset_right = -204.0
+offset_bottom = 615.0
+grow_horizontal = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1459881298]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
