@@ -2,21 +2,28 @@ class_name HitscanWeapon extends WeaponBase
 
 @export var pellets = 1
 @export var spread = 0.0
+@export var shoot_sound = preload("res://Audio/Weapons/pistol_fire.ogg")
 
 @onready var ray_shoot = $RayCast3D_shoot
 @onready var ray_shoot_original_target_position = ray_shoot.target_position
+@onready var audioStreamPlayer = $AudioStreamPlayer
 
 const BULLET_HOLE = preload("res://scenes/Decal/bullet_hole.tscn")
 
+func _ready():
+	audioStreamPlayer.stream = shoot_sound
+
 func pick_up(camera, new_holder = null):
 	super.pick_up(camera, new_holder)
-	ray_shoot.position -= position
+	ray_shoot.position = -position
 	
 
 func try_attack():
 	if time_since_last_attack >= cooldown:
 		time_since_last_attack = 0
 		GameManager.weapon_fired.emit()
+		audioStreamPlayer.pitch_scale = randf_range(0.9, 1.1)
+		audioStreamPlayer.play()
 		var any_hit = false
 		for x in pellets:
 			ray_shoot.target_position = ray_shoot_original_target_position + Vector3(randf_range(-spread, spread), randf_range(-spread, spread), 0)

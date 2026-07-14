@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://dsof7oqt2qabg"]
 
 [ext_resource type="Script" uid="uid://bftiq503wjn44" path="res://scenes/Mannequin/mannequin.gd" id="1_8ksc5"]
+[ext_resource type="AudioStream" uid="uid://b2eikvxhy0bwa" path="res://Audio/Weapons/attack_blocked.ogg" id="2_dfxmh"]
+[ext_resource type="AudioStream" uid="uid://kqno8si5ghb6" path="res://Audio/Weapons/attack_parry.ogg" id="3_i3md8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wlua3"]
 albedo_color = Color(0.6431373, 0.6431373, 0.9843137, 0.8901961)
@@ -56,3 +58,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_i3md8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1033836235]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08258057, 0)
 shape = SubResource("CapsuleShape3D_kwr3b")
+
+[node name="AudioStreamPlayer3D_block" type="AudioStreamPlayer3D" parent="." unique_id=389048597]
+stream = ExtResource("2_dfxmh")
+
+[node name="AudioStreamPlayer3D_parry" type="AudioStreamPlayer3D" parent="." unique_id=79950964]
+stream = ExtResource("3_i3md8")

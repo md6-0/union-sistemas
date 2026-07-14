@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b1qrngri5630c" path="res://scenes/Weapon/Hitscan_weapon/hitscan_weapon.tscn" id="4_k4wf4"]
 [ext_resource type="PackedScene" uid="uid://c6ip77dld0xrs" path="res://scenes/Enemy/target.tscn" id="5_fubqq"]
 [ext_resource type="PackedScene" uid="uid://crvjttgf6iq5p" path="res://scenes/Weapon/Sword_weapon/sword_weapon.tscn" id="5_vl1hj"]
+[ext_resource type="AudioStream" uid="uid://wsrrjnpklct5" path="res://Audio/Weapons/gunshot_fire.ogg" id="7_sc41r"]
 [ext_resource type="PackedScene" uid="uid://dsof7oqt2qabg" path="res://scenes/Mannequin/mannequin.tscn" id="9_wlua3"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_joneh"]
@@ -206,6 +207,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.06305, 2.1, -4.83356)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.869473, 2.1, -4.891844)
 pellets = 10
 spread = 20.0
+shoot_sound = ExtResource("7_sc41r")
 cooldown = 1.0
 damage = 10
 

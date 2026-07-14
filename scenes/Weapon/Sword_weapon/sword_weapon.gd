@@ -5,6 +5,7 @@ var original_position
 var attack_tween
 
 @onready var area3D_hitbox = $Area3D_hitbox
+@onready var audioStreamPlayer_hit = $AudioStreamPlayer_hit
 var already_hit = []
 
 
@@ -30,6 +31,8 @@ func try_attack():
 		already_hit.clear()
 		time_since_last_attack = 0
 		GameManager.weapon_fired.emit()
+		audioStreamPlayer_hit.pitch_scale = randf_range(0.9, 1.1)
+		audioStreamPlayer_hit.play()
 		area3D_hitbox.monitoring = true
 		attack_tween = create_tween().set_parallel(true)
 		attack_tween.tween_property(self, "rotation:x", original_rotation.x - deg_to_rad(60), 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
@@ -51,3 +54,5 @@ func _on_area3D_hitbox_body_entered(body):
 		var was_damage = body.take_damage(damage, global_position, holder, true)
 		if was_damage:
 			GameManager.enemy_hit.emit()
+		else:
+			audioStreamPlayer_hit.stop()

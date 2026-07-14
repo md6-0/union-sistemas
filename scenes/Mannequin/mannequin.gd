@@ -4,6 +4,8 @@ enum State {IDLE, BLOCK}
 enum FeedbackType { HIT, BLOCKED, PARRY }
 
 @onready var label_health = $Label3D_health
+@onready var audioStreamPlayer3D_block = $AudioStreamPlayer3D_block
+@onready var audioStreamPlayer3D_parry = $AudioStreamPlayer3D_parry
 
 @onready var shield_mesh = $MeshInstance3D_Shield
 @onready var shield_material = shield_mesh.get_surface_override_material(0)
@@ -108,6 +110,9 @@ func _hit_feedback(feedback_type):
 			feedback_tween_body.tween_property(body_material, "albedo_color", body_base_color, 0.15)
 			
 		FeedbackType.PARRY:
+			
+			audioStreamPlayer3D_parry.pitch_scale = randf_range(0.9, 1.1)
+			audioStreamPlayer3D_parry.play()
 			if feedback_tween_shield and feedback_tween_shield.is_running():
 				feedback_tween_shield.kill()
 
@@ -120,6 +125,8 @@ func _hit_feedback(feedback_type):
 			feedback_tween_shield.tween_property(shield_material, "albedo_color", shield_base_color, 0.15)
 			
 		FeedbackType.BLOCKED:
+			audioStreamPlayer3D_block.pitch_scale = randf_range(0.9, 1.1)
+			audioStreamPlayer3D_block.play()
 			if feedback_tween_shield and feedback_tween_shield.is_running():
 				feedback_tween_shield.kill()
 

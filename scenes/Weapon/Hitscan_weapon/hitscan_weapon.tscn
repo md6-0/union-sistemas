@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b1qrngri5630c"]
 
 [ext_resource type="Script" uid="uid://bappcmhockfvj" path="res://scenes/Weapon/Hitscan_weapon/hitscan_weapon.gd" id="1_e2o24"]
+[ext_resource type="AudioStream" uid="uid://dick4uj634mv0" path="res://Audio/Weapons/pistol_fire.ogg" id="2_fvmae"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0w3kd"]
 size = Vector3(0.2, 0.2, 0.5)
@@ -24,3 +25,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_dnu1b")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=304930290]
 shape = SubResource("BoxShape3D_0w3kd")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1577210529]
+stream = ExtResource("2_fvmae")
