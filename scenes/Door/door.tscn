@@ -27,8 +27,10 @@ shape = SubResource("BoxShape3D_066lh")
 
 [node name="AudioStreamPlayer_open" type="AudioStreamPlayer" parent="StaticBody3D" unique_id=938158197]
 stream = ExtResource("2_choqv")
+volume_db = -10.0
 bus = &"SFX"
 
 [node name="AudioStreamPlayer_blocked" type="AudioStreamPlayer" parent="StaticBody3D" unique_id=1871555401]
 stream = ExtResource("3_jl38d")
+volume_db = -10.0
 bus = &"SFX"
