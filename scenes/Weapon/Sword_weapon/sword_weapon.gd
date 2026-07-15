@@ -25,7 +25,7 @@ func _ready():
 func pick_up(camera, new_holder = null):
 	super.pick_up(camera, new_holder)
 	is_in_left_hand = true
-	pose_left_position = Vector3(-1.6,-.6,-.6)
+	pose_left_position = Vector3(-1.6,-.6,-1)
 	pose_left_rotation = Vector3(deg_to_rad(60), deg_to_rad(0), 0)
 	pose_right_position = Vector3(-pose_left_position.x, pose_left_position.y, pose_left_position.z)
 	pose_right_rotation = Vector3(pose_left_rotation.x, -pose_left_rotation.y, pose_left_rotation.z)
@@ -74,7 +74,7 @@ func try_attack():
 
 		# empuje hacia delante, sincronizado con la misma duración total que el barrido (0.12s)
 		thrust_tween = create_tween()
-		thrust_tween.tween_property(self, "position:z", position.z - .75, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		thrust_tween.tween_property(self, "position:z", position.z - .25, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		thrust_tween.chain().tween_property(self, "position:z", position_target.z, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
 		tilt_tween = create_tween()

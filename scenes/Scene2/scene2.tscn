@@ -213,7 +213,7 @@ cooldown = 1.0
 damage = 10
 
 [node name="SwordWeapon" parent="World/NavigationRegion3D/Room" unique_id=784996446 instance=ExtResource("5_vl1hj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.65189, 2.0400002, -4.403319)
+transform = Transform3D(0.66560525, 0, 0.746304, 0, 1, 0, -0.746304, 0, 0.66560525, 53.416744, 2.0400002, -3.9928286)
 
 [node name="RigidBody3D" parent="World/NavigationRegion3D/Room/SwordWeapon" index="0" unique_id=430970238]
 cooldown = 1.0
