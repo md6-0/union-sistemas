@@ -14,14 +14,23 @@ const FALL_GRAVITY_MULTIPLIER = 2.25
 
 const MOUSE_SENSITIVITY = 0.003
 const JOYSTICK_SENSITIVITY = 0.05
+
 const COYOTE_TIME = 0.15
+var coyote_timer = 0.0
+
+const JUMP_BUFFER_TIME = 0.15
+var jump_buffer_timer = 100.0
+
 
 var player_state = State.NORMAL
 var bob_time = 0.0
 var is_sprinting = false
 var weapon
 var footstep_played = false
-var coyote_timer = 0.0
+var was_on_floor = true
+var player_fall_speed = 0.0
+var camera_landing_tween
+
 
 @onready var camera = $Camera3D
 @onready var climbing_sensor = $ClimbingSensor
@@ -29,13 +38,18 @@ var coyote_timer = 0.0
 @onready var audioStreamPlayer_footsteps = $AudioStreamPlayer_footsteps
 @onready var audioStreamPlayer_voice = $AudioStreamPlayer_voice
 @onready var camera_origin_y = camera.position.y
+@onready var camera_origin_x = camera.position.x
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _physics_process(delta):
 	
+	was_on_floor = is_on_floor()
+	player_fall_speed = velocity.y
+	
 	_handle_coyote_time(delta)
+	_handle_jump_buffer(delta)
 	
 	if player_state == State.NORMAL and velocity.y > 0:
 		#nos agarramos solo si el player salta hacia arriba, al caer no se agarrará
@@ -46,9 +60,11 @@ func _physics_process(delta):
 		_handle_movement(delta)
 		_handle_interaction()
 		_handle_weapon()
-	
-	
+		
 	move_and_slide()
+	
+	if is_on_floor() and not was_on_floor:
+		_handle_landing()
 
 func _handle_gravity(delta):
 	if not is_on_floor() and velocity.y > 0:
@@ -56,10 +72,43 @@ func _handle_gravity(delta):
 	elif not is_on_floor() and velocity.y <= 0:
 		velocity += (get_gravity() * FALL_GRAVITY_MULTIPLIER) * delta
 
+func _handle_jump_buffer(delta):
+	if Input.is_action_just_pressed("jump"):
+		jump_buffer_timer = 0.0
+	else:
+		jump_buffer_timer += delta
+
+func _handle_coyote_time(delta):
+	if is_on_floor():
+		coyote_timer = 0.0
+	else:
+		coyote_timer += delta
+
+func _handle_landing():
+	print("landed with velocity.y = " + str(player_fall_speed))
+	
+	if camera_landing_tween and camera_landing_tween.is_running(): 
+		camera_landing_tween.kill()
+		
+	if player_fall_speed < -5.5:
+		camera_landing_tween = create_tween()
+		camera_landing_tween.set_parallel(true)
+
+		var x_offset = randf_range(-.06, +.06)
+		var dip_amount = clamp(abs(player_fall_speed) * 0.05, 0.15, 0.6)
+		camera_landing_tween.tween_property(camera, "position:y", camera_origin_y - dip_amount, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		camera_landing_tween.tween_property(camera, "position:x", camera_origin_x + x_offset, 0.15).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		
+		camera_landing_tween.chain().tween_property(camera, "position:y", camera_origin_y, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		camera_landing_tween.tween_property(camera, "position:x", camera_origin_x + (x_offset*-1), 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
+		camera_landing_tween.chain().tween_property(camera, "position:x", camera_origin_x, 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		
 func _handle_movement(delta):
 	
-	if Input.is_action_just_pressed("jump") and coyote_timer < COYOTE_TIME:
+	if  jump_buffer_timer < JUMP_BUFFER_TIME and coyote_timer < COYOTE_TIME:
 		coyote_timer = COYOTE_TIME
+		jump_buffer_timer = JUMP_BUFFER_TIME
 		velocity.y = JUMP_VELOCITY
 		audioStreamPlayer_voice.pitch_scale = randf_range(0.9, 1.1)
 		audioStreamPlayer_voice.play()
@@ -101,12 +150,6 @@ func _handle_ledge_detection():
 		tween.tween_property(self, "global_position", new_position , 1.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween.finished.connect(func(): player_state = State.NORMAL)
 
-func _handle_coyote_time(delta):
-	if is_on_floor():
-		coyote_timer = 0.0
-	else:
-		coyote_timer += delta
-
 func _handle_camera(look_x: float, look_y: float, sensitivity: float):
 	rotate_y(-look_x * sensitivity)
 	camera.rotate_x(-look_y * sensitivity)
@@ -146,6 +189,10 @@ func _unhandled_input(event):
 		_handle_camera(event.relative.x, event.relative.y, MOUSE_SENSITIVITY)
 
 func _handle_bob(delta: float, is_moving: bool):
+	
+	if camera_landing_tween and camera_landing_tween.is_running(): 
+		return
+		
 	var frequency
 	if is_sprinting:
 		frequency = BOB_FREQUENCY_SPRINT
