@@ -95,5 +95,6 @@ func _on_area3D_hitbox_body_entered(body):
 		var was_damage = body.take_damage(damage, global_position, holder, true)
 		if was_damage:
 			GameManager.enemy_hit.emit()
+			GameManager.hitstop()
 		else:
 			audioStreamPlayer_hit.stop()
