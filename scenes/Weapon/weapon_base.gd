@@ -16,7 +16,7 @@ var holder
 @export var sway_max = 8
 var sway_target = Vector3.ZERO
 
-func apply_look_sway(look_x, look_y):
+func apply_look_sway(_look_x, _look_y):
 	pass
 
 func _process(delta):

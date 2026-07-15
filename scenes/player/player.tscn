@@ -41,3 +41,8 @@ bus = &"SFX"
 stream = ExtResource("5_p47bc")
 volume_db = -10.0
 bus = &"SFX"
+
+[node name="AudioStreamPlayer_voice2" type="AudioStreamPlayer" parent="CharacterBody3D" unique_id=1213799634]
+stream = ExtResource("5_p47bc")
+volume_db = -10.0
+bus = &"SFX"

@@ -40,12 +40,15 @@ const SHAKE_DECAY = 1.5
 const SHAKE_MAX_ANGLE = 15.0
 var shake_time = 0.0
 var shake_noise = FastNoiseLite.new()
+var climb_offset = Vector3.ZERO   
+var climb_roll = 0.0              
 
 @onready var camera = $Camera3D
 @onready var climbing_sensor = $ClimbingSensor
 @onready var ray_interactable = $Camera3D/RayCast3D_interactable
 @onready var audioStreamPlayer_footsteps = $AudioStreamPlayer_footsteps
 @onready var audioStreamPlayer_voice = $AudioStreamPlayer_voice
+@onready var audioStreamPlayer_voice2 = $AudioStreamPlayer_voice2
 @onready var camera_origin_y = camera.position.y
 @onready var camera_origin_x = camera.position.x
 
@@ -162,8 +165,8 @@ func _handle_screen_shake(delta):
 		shake_roll = 0.0
 
 func _apply_camera_effects():
-	camera.position = Vector3(camera_origin_x, camera_origin_y, 0) + bob_offset + landing_offset
-	camera.rotation.z = shake_roll
+	camera.position = Vector3(camera_origin_x, camera_origin_y, 0) + bob_offset + landing_offset + climb_offset
+	camera.rotation.z = shake_roll + climb_roll
 
 func _handle_camera(look_x: float, look_y: float, sensitivity: float):
 	rotate_y(-look_x * sensitivity)
@@ -178,12 +181,26 @@ func _handle_ledge_detection():
 	if sensor_answer.available:
 		player_state = State.CLIMBING
 		velocity = Vector3(0,0,0)
-		var tween = create_tween()
 		var forward = -global_transform.basis.z
 		var new_position = global_position + forward * 1.25
 		new_position.y = sensor_answer.height + 0.9
+		var tween = create_tween()
 		tween.tween_property(self, "global_position", new_position , 1.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween.finished.connect(func(): player_state = State.NORMAL)
+		
+		var climb_tween = create_tween().set_parallel(true)
+		# tirón 1 (0 → 0.5s): ladeo derecha + hundimiento
+		climb_tween.tween_property(self, "climb_roll", deg_to_rad(5), 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		climb_tween.tween_property(self, "climb_offset:y", -0.15, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		# tirón 2 (0.5 → 1.0s): cruza al lado contrario, el cuerpo ya sube
+		climb_tween.chain().tween_property(self, "climb_roll", deg_to_rad(-5), 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+		climb_tween.tween_property(self, "climb_offset:y", -0.05, 0.5)
+		# coronar (1.0 → 1.5s): todo a cero con asentamiento
+		climb_tween.chain().tween_property(self, "climb_roll", 0.0, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		climb_tween.tween_property(self, "climb_offset:y", 0.0, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			
+		audioStreamPlayer_voice2.pitch_scale = randf_range(0.4, .5)
+		audioStreamPlayer_voice2.play()
 
 func _handle_interaction():
 	if ray_interactable.is_colliding() and Input.is_action_just_pressed("interact"):
