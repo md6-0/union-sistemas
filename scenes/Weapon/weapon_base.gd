@@ -6,28 +6,47 @@ class_name WeaponBase extends RigidBody3D
 @onready var collisionShape = $CollisionShape3D
 @onready var original_parent = get_parent()
 
-
 var holder
 
+@onready var base_position = position
+@onready var base_rotation = rotation
+
+@export var sway_amount = 2
+@export var sway_speed = 2
+@export var sway_max = 8
+var sway_target = Vector3.ZERO
+
+func apply_look_sway(look_x, look_y):
+	pass
+
+func _process(delta):
+	if holder == null:
+		return
+	else:
+		sway_target = sway_target.lerp(Vector3.ZERO, sway_speed * delta)
+		position = base_position
+		rotation = base_rotation + sway_target
 
 func _physics_process(delta):
 	time_since_last_attack += delta
-
 
 func pick_up(camera, new_holder = null):
 	freeze = true
 	collisionShape.disabled = true
 	reparent(camera)
 	holder = new_holder
-	position = Vector3(0,-.5,-.5)
+	
+	position = Vector3(0,-.5,-1)
 	rotation = Vector3.ZERO
-		
+	
+	base_position = position
+	base_rotation = rotation
+
 func drop():
 	freeze = false
 	collisionShape.disabled = false
 	holder = null
 	reparent(original_parent)
 
-		
 func try_attack():
 	pass

@@ -169,6 +169,9 @@ func _handle_camera(look_x: float, look_y: float, sensitivity: float):
 	rotate_y(-look_x * sensitivity)
 	camera.rotate_x(-look_y * sensitivity)
 	camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+	
+	if weapon != null:
+		weapon.apply_look_sway(look_x * sensitivity, look_y * sensitivity)
 
 func _handle_ledge_detection():
 	var sensor_answer = climbing_sensor.is_ledge_available()

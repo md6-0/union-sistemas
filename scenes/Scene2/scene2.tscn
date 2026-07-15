@@ -202,10 +202,10 @@ mesh = SubResource("BoxMesh_0w3kd")
 shape = SubResource("BoxShape3D_oqax5")
 
 [node name="Weapon" parent="World/NavigationRegion3D/Room" unique_id=1101846531 instance=ExtResource("4_k4wf4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.06305, 2.1, -4.83356)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.06305, 2.1267006, -4.83356)
 
 [node name="Weapon2" parent="World/NavigationRegion3D/Room" unique_id=1184539288 instance=ExtResource("4_k4wf4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.869473, 2.1, -4.891844)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.869473, 2.1086612, -4.891844)
 pellets = 10
 spread = 20.0
 shoot_sound = ExtResource("7_sc41r")
@@ -263,4 +263,5 @@ parameters/looping = true
 [editable path="World/Elevator"]
 [editable path="World/NavigationRegion3D/Room/Enemy"]
 [editable path="World/NavigationRegion3D/Room/SwordWeapon"]
+[editable path="World/NavigationRegion3D/Room/SwordWeapon/RigidBody3D/Sword_model"]
 [editable path="World/Man1"]

@@ -36,9 +36,11 @@ monitoring = false
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -1.9957067e-08, -1.5565646)
 shape = SubResource("CapsuleShape3D_0w3kd")
 
-[node name="3DModel_sword" parent="RigidBody3D" unique_id=360151000 instance=ExtResource("4_7cn7y")]
+[node name="Sword_model" parent="RigidBody3D" unique_id=360151000 instance=ExtResource("4_7cn7y")]
 transform = Transform3D(1, 0, 0, 0, 0.029434558, 0.99956673, 0, -0.99956673, 0.029434558, -0.0013189912, 0, 0.32242402)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=840180549]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.038729854, 0, -0.5017242)
 shape = SubResource("BoxShape3D_0w3kd")
+
+[editable path="RigidBody3D/Sword_model"]
