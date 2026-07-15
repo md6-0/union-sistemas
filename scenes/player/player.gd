@@ -31,6 +31,15 @@ var was_on_floor = true
 var player_fall_speed = 0.0
 var camera_landing_tween
 
+# --- sistema de efectos de cámara: cada uno aporta SU offset, se suman una vez por frame ---
+var bob_offset = Vector3.ZERO
+var landing_offset = Vector3.ZERO
+var shake_roll = 0.0
+var shake_trauma = 0.0
+const SHAKE_DECAY = 1.5
+const SHAKE_MAX_ANGLE = 15.0
+var shake_time = 0.0
+var shake_noise = FastNoiseLite.new()
 
 @onready var camera = $Camera3D
 @onready var climbing_sensor = $ClimbingSensor
@@ -42,6 +51,8 @@ var camera_landing_tween
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	shake_noise.seed = randi()
+	shake_noise.frequency = 1.0
 
 func _physics_process(delta):
 	
@@ -50,21 +61,24 @@ func _physics_process(delta):
 	
 	_handle_coyote_time(delta)
 	_handle_jump_buffer(delta)
-	
+
 	if player_state == State.NORMAL and velocity.y > 0:
 		#nos agarramos solo si el player salta hacia arriba, al caer no se agarrará
 		_handle_ledge_detection()
-		
+
 	if player_state == State.NORMAL:
 		_handle_gravity(delta)
 		_handle_movement(delta)
 		_handle_interaction()
 		_handle_weapon()
-		
+
 	move_and_slide()
-	
+
 	if is_on_floor() and not was_on_floor:
 		_handle_landing()
+
+	_handle_screen_shake(delta)
+	_apply_camera_effects()
 
 func _handle_gravity(delta):
 	if not is_on_floor() and velocity.y > 0:
@@ -72,38 +86,6 @@ func _handle_gravity(delta):
 	elif not is_on_floor() and velocity.y <= 0:
 		velocity += (get_gravity() * FALL_GRAVITY_MULTIPLIER) * delta
 
-func _handle_jump_buffer(delta):
-	if Input.is_action_just_pressed("jump"):
-		jump_buffer_timer = 0.0
-	else:
-		jump_buffer_timer += delta
-
-func _handle_coyote_time(delta):
-	if is_on_floor():
-		coyote_timer = 0.0
-	else:
-		coyote_timer += delta
-
-func _handle_landing():
-	print("landed with velocity.y = " + str(player_fall_speed))
-	
-	if camera_landing_tween and camera_landing_tween.is_running(): 
-		camera_landing_tween.kill()
-		
-	if player_fall_speed < -5.5:
-		camera_landing_tween = create_tween()
-		camera_landing_tween.set_parallel(true)
-
-		var x_offset = randf_range(-.06, +.06)
-		var dip_amount = clamp(abs(player_fall_speed) * 0.05, 0.15, 0.6)
-		camera_landing_tween.tween_property(camera, "position:y", camera_origin_y - dip_amount, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-		camera_landing_tween.tween_property(camera, "position:x", camera_origin_x + x_offset, 0.15).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-		
-		camera_landing_tween.chain().tween_property(camera, "position:y", camera_origin_y, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		camera_landing_tween.tween_property(camera, "position:x", camera_origin_x + (x_offset*-1), 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-
-		camera_landing_tween.chain().tween_property(camera, "position:x", camera_origin_x, 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-		
 func _handle_movement(delta):
 	
 	if  jump_buffer_timer < JUMP_BUFFER_TIME and coyote_timer < COYOTE_TIME:
@@ -138,6 +120,56 @@ func _handle_movement(delta):
 			velocity.z = move_toward(velocity.z, 0, ACCELERATION)
 	_handle_bob(delta, direction.length() > 0)
 
+func _handle_jump_buffer(delta):
+	if Input.is_action_just_pressed("jump"):
+		jump_buffer_timer = 0.0
+	else:
+		jump_buffer_timer += delta
+
+func _handle_coyote_time(delta):
+	if is_on_floor():
+		coyote_timer = 0.0
+	else:
+		coyote_timer += delta
+
+func _handle_landing():
+	if camera_landing_tween and camera_landing_tween.is_running():
+		camera_landing_tween.kill()
+
+	if player_fall_speed < -5.5:
+		camera_landing_tween = create_tween()
+		camera_landing_tween.set_parallel(true)
+
+		var x_offset = randf_range(-.06, +.06)
+		var dip_amount = clamp(abs(player_fall_speed) * 0.05, 0.15, 0.6)
+		# ojo: el objetivo ahora es "self" (landing_offset), no la cámara directamente
+		camera_landing_tween.tween_property(self, "landing_offset:y", -dip_amount, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		camera_landing_tween.tween_property(self, "landing_offset:x", x_offset, 0.15).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
+		camera_landing_tween.chain().tween_property(self, "landing_offset:y", 0.0, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		camera_landing_tween.tween_property(self, "landing_offset:x", -x_offset, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
+		camera_landing_tween.chain().tween_property(self, "landing_offset:x", 0.0, 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
+func _handle_screen_shake(delta):
+	if shake_trauma > 0.0:
+		shake_trauma = max(shake_trauma - SHAKE_DECAY * delta, 0.0)
+		shake_time += delta * 30.0
+		var shake_amount = shake_trauma * shake_trauma
+		var noise_value = shake_noise.get_noise_1d(shake_time)
+		shake_roll = deg_to_rad(noise_value * shake_amount * SHAKE_MAX_ANGLE)
+	else:
+		shake_roll = 0.0
+
+func _apply_camera_effects():
+	camera.position = Vector3(camera_origin_x, camera_origin_y, 0) + bob_offset + landing_offset
+	camera.rotation.z = shake_roll
+
+func _handle_camera(look_x: float, look_y: float, sensitivity: float):
+	rotate_y(-look_x * sensitivity)
+	camera.rotate_x(-look_y * sensitivity)
+	camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+
 func _handle_ledge_detection():
 	var sensor_answer = climbing_sensor.is_ledge_available()
 	if sensor_answer.available:
@@ -149,11 +181,6 @@ func _handle_ledge_detection():
 		new_position.y = sensor_answer.height + 0.9
 		tween.tween_property(self, "global_position", new_position , 1.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween.finished.connect(func(): player_state = State.NORMAL)
-
-func _handle_camera(look_x: float, look_y: float, sensitivity: float):
-	rotate_y(-look_x * sensitivity)
-	camera.rotate_x(-look_y * sensitivity)
-	camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
 func _handle_interaction():
 	if ray_interactable.is_colliding() and Input.is_action_just_pressed("interact"):
@@ -172,36 +199,20 @@ func _handle_weapon():
 	if Input.is_action_just_pressed("attack") and weapon != null:
 		weapon.try_attack()
 
-func drop_weapon():
-	if weapon != null:
-		weapon.drop()
-		weapon = null
-
-func take_damage(damage):
-	GameManager.player_health -= damage
-	print("Player says: Ouch!")
-	if GameManager.player_health <= 0:
-		GameManager.player_health = 100
-		get_tree().reload_current_scene()
-
 func _unhandled_input(event):
 	if event is InputEventMouseMotion and player_state != State.CLIMBING:
 		_handle_camera(event.relative.x, event.relative.y, MOUSE_SENSITIVITY)
 
 func _handle_bob(delta: float, is_moving: bool):
-	
-	if camera_landing_tween and camera_landing_tween.is_running(): 
-		return
-		
 	var frequency
 	if is_sprinting:
 		frequency = BOB_FREQUENCY_SPRINT
 	else:
 		frequency = BOB_FREQUENCY
-		
+
 	if is_moving and is_on_floor():
 		bob_time += delta * frequency
-		camera.position.y = (sin(bob_time) * BOB_AMPLITUDE) + camera_origin_y
+		bob_offset.y = sin(bob_time) * BOB_AMPLITUDE
 		var bob = sin(bob_time)
 		if bob < -0.9 and not footstep_played:
 			footstep_played = true
@@ -209,7 +220,21 @@ func _handle_bob(delta: float, is_moving: bool):
 			audioStreamPlayer_footsteps.play()
 		elif bob > 0.9 :
 			footstep_played = false
-
-		
 	else:
-		camera.position.y = move_toward(camera.position.y, camera_origin_y, BOB_AMPLITUDE * delta * 4)
+		bob_offset.y = move_toward(bob_offset.y, 0.0, BOB_AMPLITUDE * delta * 4)
+
+# Public functions
+func take_damage(damage):
+	GameManager.player_health -= damage
+	add_trauma(1)
+	if GameManager.player_health <= 0:
+		GameManager.player_health = 100
+		get_tree().reload_current_scene()
+
+func add_trauma(amount):
+	shake_trauma = clamp(shake_trauma + amount, 0.0, 1)
+
+func drop_weapon():
+	if weapon != null:
+		weapon.drop()
+		weapon = null
