@@ -32,6 +32,7 @@ var player_fall_speed = 0.0
 var camera_landing_tween
 
 # --- sistema de efectos de cámara: cada uno aporta SU offset, se suman una vez por frame ---
+var camera_pitch = 0.0 
 var bob_offset = Vector3.ZERO
 var landing_offset = Vector3.ZERO
 var shake_roll = 0.0
@@ -170,8 +171,8 @@ func _apply_camera_effects():
 
 func _handle_camera(look_x: float, look_y: float, sensitivity: float):
 	rotate_y(-look_x * sensitivity)
-	camera.rotate_x(-look_y * sensitivity)
-	camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+	camera_pitch = clamp(camera_pitch - look_y * sensitivity, deg_to_rad(-89), deg_to_rad(89))
+	camera.rotation.x = camera_pitch
 	
 	if weapon != null:
 		weapon.apply_look_sway(look_x * sensitivity, look_y * sensitivity)

@@ -14,10 +14,10 @@ var tilt_tween
 @onready var audioStreamPlayer_hit = $AudioStreamPlayer_hit
 @onready var audioStreamPlayer_pickup = $AudioStreamPlayer_pickup
 @onready var mesh = $Sword_model/Sword
+@onready var sparks_origin = $Marker3D_spark_origin
 
 const AFTERIMAGE_INTERVAL = 0.02
 var afterimage_timer = 0.0
-
 
 var already_hit = []
 
@@ -99,8 +99,8 @@ func try_attack():
 		attack_tween.chain().tween_callback(func(): area3D_hitbox.monitoring = false)
 		
 		is_in_left_hand = not is_in_left_hand
-		
-func _on_area3D_hitbox_body_entered(body):
+
+func _on_area3D_hitbox_body_entered(body):		
 	if body in already_hit:
 		return
 		
@@ -112,6 +112,8 @@ func _on_area3D_hitbox_body_entered(body):
 			GameManager.hitstop()
 		else:
 			audioStreamPlayer_hit.stop()
+	else:
+		_add_sparks(body, sparks_origin.global_position)
 
 func _spawn_afterimage():
 	var ghost = mesh.duplicate()

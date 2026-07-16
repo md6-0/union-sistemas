@@ -31,6 +31,9 @@ albedo_color = Color(0.67481464, 0.67481464, 0.6748146, 1)
 emission_enabled = true
 emission_energy_multiplier = 5.0
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0w3kd"]
+height = 0.2
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kwr3b"]
 radius = 0.5019531
 height = 2.208374
@@ -54,6 +57,11 @@ surface_material_override/0 = SubResource("StandardMaterial3D_8ksc5")
 transform = Transform3D(1.9106855e-15, -4.371139e-08, 1, -1, -4.371139e-08, 0, 4.371139e-08, -1, -4.371139e-08, 0, 0.2, -0.8)
 mesh = SubResource("CylinderMesh_0w3kd")
 surface_material_override/0 = SubResource("StandardMaterial3D_i3md8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D_Shield" unique_id=1770945944]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D_Shield/StaticBody3D" unique_id=177116627]
+shape = SubResource("CylinderShape3D_0w3kd")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1033836235]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08258057, 0)

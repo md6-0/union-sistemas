@@ -1,5 +1,8 @@
 class_name WeaponBase extends RigidBody3D
 
+const SPARKS = preload("res://scenes/Decal/sparks.tscn")
+const BULLET_HOLE = preload("res://scenes/Decal/bullet_hole.tscn")
+
 @export var cooldown = 0.3
 @export var damage = 25
 @onready var time_since_last_attack = cooldown
@@ -50,3 +53,23 @@ func drop():
 
 func try_attack():
 	pass
+	
+	
+func _add_decall(parent, at_position: Vector3, normal: Vector3 = Vector3.UP):
+	var hole = BULLET_HOLE.instantiate()
+	parent.add_child(hole)   
+	hole.global_position = at_position
+	var up_reference = Vector3.UP
+	if abs(normal.y) > 0.99:
+		up_reference = Vector3.FORWARD
+	hole.look_at(hole.global_position + normal, up_reference)
+	hole.rotate_object_local(Vector3.RIGHT, -PI/2)
+
+func _add_sparks(parent, at_position: Vector3, normal: Vector3 = Vector3.UP):
+	var sparks = SPARKS.instantiate()
+	parent.add_child(sparks)   
+	sparks.global_position = at_position
+	var up_reference = Vector3.UP
+	if abs(normal.y) > 0.99:
+		up_reference = Vector3.FORWARD
+	sparks.look_at(sparks.global_position + normal, up_reference)
