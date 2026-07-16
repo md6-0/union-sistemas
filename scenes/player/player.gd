@@ -7,9 +7,9 @@ const ACCELERATION = 0.6
 const SPRINT_SPEED = 6.0
 const JUMP_VELOCITY = 4.0
 
-const BOB_FREQUENCY = 15.0
-const BOB_FREQUENCY_SPRINT = 25.0
-const BOB_AMPLITUDE = 0.04
+const BOB_FREQUENCY = 13.0
+const BOB_FREQUENCY_SPRINT = 20.0
+const BOB_AMPLITUDE = 0.03
 const FALL_GRAVITY_MULTIPLIER = 2.25
 
 const MOUSE_SENSITIVITY = 0.003
@@ -199,7 +199,7 @@ func _handle_ledge_detection():
 		climb_tween.chain().tween_property(self, "climb_roll", 0.0, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		climb_tween.tween_property(self, "climb_offset:y", 0.0, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 			
-		audioStreamPlayer_voice2.pitch_scale = randf_range(0.4, .5)
+		audioStreamPlayer_voice2.pitch_scale = randf_range(0.7, .9)
 		audioStreamPlayer_voice2.play()
 
 func _handle_interaction():

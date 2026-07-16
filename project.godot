@@ -21,8 +21,11 @@ GameManager="*uid://sbxkjxr2gilf"
 
 [display]
 
-window/stretch/mode="canvas_items"
+window/size/viewport_width=2560
+window/size/viewport_height=1440
+window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+window/vsync/vsync_mode=0
 
 [global_group]
 
