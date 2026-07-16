@@ -19,8 +19,10 @@ sky_material = SubResource("PhysicalSkyMaterial_joneh")
 
 [sub_resource type="Environment" id="Environment_0ya8a"]
 background_mode = 2
-background_energy_multiplier = 3.45
+background_energy_multiplier = 1.5
 sky = SubResource("Sky_w8n5e")
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.01
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_0ya8a"]
 vertices = PackedVector3Array(2.9499993, 0.35, -8.05, 5.1999993, 0.35, -8.05, 5.4499993, 0.35, -14.3, -4.3000007, 0.35, -5.8, 2.6999993, 0.35, -5.8, -4.3000007, 0.35, -14.3, 6.9499993, 0.35, -7.8, 14.699999, 0.35, -7.8, 16.449999, 0.35, -8.05, 16.199999, 0.35, -14.3, 6.9499993, 0.35, -5.8, 14.699999, 0.35, -5.8, 18.699999, 0.35, -8.05, 18.949999, 0.35, -5.8, 24.449999, 0.35, -5.8, 24.449999, 0.35, -14.3, 3.6999993, 10.35, -7.05, 3.6999993, 10.35, -4.8, 5.9499993, 10.35, -4.8, 5.9499993, 10.35, -7.05, 15.699999, 10.35, -7.05, 15.699999, 10.35, -4.8, 17.949999, 10.35, -4.8, 17.949999, 10.35, -7.05, 3.9499993, 0.35, -6.8, 3.9499993, 0.35, -5.05, 5.6999993, 0.35, -5.05, 5.6999993, 0.35, -6.8, 15.949999, 0.35, -6.8, 15.949999, 0.35, -5.05, 17.699999, 0.35, -5.05, 17.699999, 0.35, -6.8, -4.3000007, 0.35, 5.95, 2.6999993, 0.35, 5.95, 2.9499993, 0.35, 3.9499998, 2.9499993, 0.35, -3.8000002, 4.9499993, 0.35, 3.9499998, 4.9499993, 0.35, -3.8000002, 6.6999993, 0.35, 3.9499998, 6.6999993, 0.35, -3.8000002, 14.699999, 0.35, 4.2, 16.699999, 0.35, 3.9499998, 16.699999, 0.35, -3.8000002, 14.699999, 0.35, -4.05, 6.9499993, 0.35, 5.95, 14.699999, 0.35, 5.95, 18.699999, 0.35, -3.8000002, 18.699999, 0.35, 3.9499998, 18.949999, 0.35, 5.95, 24.449999, 0.35, 5.95, 3.6999993, 10.35, 4.95, 3.6999993, 10.35, 7.2, 5.9499993, 10.35, 7.2, 5.9499993, 10.35, 4.95, 15.699999, 10.35, 4.95, 15.699999, 10.35, 7.2, 17.949999, 10.35, 7.2, 17.949999, 10.35, 4.95, 3.9499993, 0.35, 5.2, 3.9499993, 0.35, 6.95, 5.6999993, 0.35, 6.95, 5.6999993, 0.35, 5.2, 15.949999, 0.35, 5.2, 15.949999, 0.35, 6.95, 17.699999, 0.35, 6.95, 17.699999, 0.35, 5.2, 4.9499993, 0.35, 14.2, 4.9499993, 0.35, 8.2, 2.6999993, 0.35, 7.95, -4.3000007, 0.35, 14.2, 16.699999, 0.35, 14.2, 16.699999, 0.35, 8.2, 14.699999, 0.35, 7.95, 6.9499993, 0.35, 7.95, 18.699999, 0.35, 8.2, 24.449999, 0.35, 14.2)
@@ -70,7 +72,7 @@ current = true
 transform = Transform3D(-0.057628203, 0, 0.9983381, 0, 1, 0, -0.9983381, 0, -0.057628203, 52.14015, 4.129673, -0.042146087)
 
 [node name="CharacterBody3D" parent="Player" index="1" unique_id=1700311132]
-transform = Transform3D(-0.3357772, 0, -0.9419431, 0, 1, 0, 0.9419431, 0, -0.3357772, 0.117554426, -1.0071554, -2.0365028)
+transform = Transform3D(-0.9999561, 0, 0.009668153, 0, 1, 0, -0.009668153, 0, -0.9999561, -8.970826, -3.0169907, -56.480328)
 
 [node name="Camera3D" parent="Player/CharacterBody3D" index="1" unique_id=474028701]
 current = true
@@ -79,10 +81,7 @@ fov = 90.0
 [node name="World" type="Node3D" parent="." unique_id=691176855]
 
 [node name="Elevator" parent="World" unique_id=692422693 instance=ExtResource("1_ktaha")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.030085, 1.2657204, -1.0906724)
-
-[node name="AnimatableBody3D" parent="World/Elevator" index="0" unique_id=1020956976]
-travel_lenght = 30
+transform = Transform3D(-0.9999795, 0, -0.0064270645, 0, 1, 0, 0.0064270645, 0, -0.9999795, -3.9041793, 1.4080591, 13.038255)
 
 [node name="VoxelGI" type="VoxelGI" parent="World" unique_id=793198007]
 transform = Transform3D(-0.057628207, 0, 0.99833816, 0, 1, 0, -0.99833816, 0, -0.057628207, 27.494205, 4.729673, 5.021461)
@@ -90,7 +89,10 @@ size = Vector3(80.897705, 20, 105.775024)
 data = ExtResource("1_3moll")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="World" unique_id=598486895]
-transform = Transform3D(1, 0, 0, 0, 0.42261824, 0.9063078, 0, -0.9063078, 0.42261824, 0, 31.592344, 11.865432)
+transform = Transform3D(1, 0, 0, 0, 0.6392985, 0.7689587, 0, -0.7689587, 0.6392985, 0, 34.908615, 22.031393)
+light_color = Color(0.9833233, 0.5548034, 1.1551381e-06, 1)
+light_energy = 0.75
+shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="World" unique_id=1230681223]
 environment = SubResource("Environment_0ya8a")
@@ -108,6 +110,7 @@ data = {
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="Route1" type="Node3D" parent="World/NavigationRegion3D/Room" unique_id=2058478981]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.708726, 0, 0)
 
 [node name="Marker3D_route_1_1" type="Marker3D" parent="World/NavigationRegion3D/Room/Route1" unique_id=1999951161]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1288118, 0.31672055, -11.732985)
@@ -122,7 +125,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.680061, 0.31672055, 0.00224
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.680061, 0.31672055, -11.776164)
 
 [node name="Enemy" parent="World/NavigationRegion3D/Room" unique_id=1550922732 instance=ExtResource("2_0ya8a")]
-transform = Transform3D(0.086702146, 0, -0.9962343, 0, 1, 0, 0.9962343, 0, 0.086702146, 1.0399613, 0.84999883, -19.742256)
+transform = Transform3D(0.086702146, 0, -0.9962343, 0, 1, 0, 0.9962343, 0, 0.086702146, 12.829054, 0.84999883, 4.8905983)
 
 [node name="StaticBody3D" parent="World/NavigationRegion3D/Room/Enemy" index="0" unique_id=1026848930 node_paths=PackedStringArray("patrol_route") groups=["enemy"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.165021, 0, 0.6235709)
@@ -252,6 +255,48 @@ surface_material_override/0 = SubResource("StandardMaterial3D_sc41r")
 [node name="StaticBody3D" parent="World" unique_id=555739417 instance=ExtResource("9_wlua3")]
 transform = Transform3D(0.8104014, 0, -0.58587503, 0, 1, 0, 0.58587503, 0, 0.8104014, 47.47304, 0.9857502, 18.875525)
 
+[node name="OmniLight3D" type="OmniLight3D" parent="World" unique_id=821637926]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.388336, 2.7690496, 11.646118)
+light_energy = 0.5
+omni_range = 5.56
+omni_attenuation = -1.57
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="World" unique_id=1424926353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.976624, 2.7690496, 4.7595677)
+light_energy = 0.5
+omni_range = 5.56
+omni_attenuation = -1.57
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="World" unique_id=1747890779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.691525, 2.7690496, 11.646118)
+light_energy = 0.5
+omni_range = 5.56
+omni_attenuation = -1.57
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="World" unique_id=705369648]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.27981, 2.7690496, 4.7595677)
+light_energy = 0.5
+omni_range = 5.56
+omni_attenuation = -1.57
+
+[node name="OmniLight3D7" type="OmniLight3D" parent="World" unique_id=1402161397]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.60213, 2.7690496, -14.798968)
+light_energy = 0.5
+omni_range = 5.56
+omni_attenuation = -1.57
+
+[node name="OmniLight3D8" type="OmniLight3D" parent="World" unique_id=1655042916]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4043884, 2.7690496, -14.798968)
+light_energy = 0.5
+omni_range = 5.56
+omni_attenuation = -1.57
+
+[node name="OmniLight3D9" type="OmniLight3D" parent="World" unique_id=1265544575]
+transform = Transform3D(0.99999714, 0.002023382, -0.001282617, -0.0020174216, 0.99998724, 0.004631641, 0.0012919721, -0.00462904, 0.99998844, -4.332558, 2.7690496, 0.24355674)
+light_energy = 0.5
+omni_range = 5.56
+omni_attenuation = -1.57
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1761468339]
 stream = ExtResource("11_0mxgs")
 volume_db = -18.0
@@ -260,7 +305,6 @@ bus = &"Music"
 parameters/looping = true
 
 [editable path="Player"]
-[editable path="World/Elevator"]
 [editable path="World/NavigationRegion3D/Room/Enemy"]
 [editable path="World/NavigationRegion3D/Room/SwordWeapon"]
 [editable path="World/NavigationRegion3D/Room/SwordWeapon/RigidBody3D/Sword_model"]
