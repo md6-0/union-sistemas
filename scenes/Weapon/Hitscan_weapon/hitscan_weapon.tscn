@@ -12,6 +12,42 @@ albedo_color = Color(1, 0.007843138, 0.019607844, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_0w3kd"]
 size = Vector3(0.2, 0.2, 0.5)
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_0w3kd"]
+top_radius = 0.024902344
+bottom_radius = 0.024902344
+height = 0.1640625
+
+[sub_resource type="BoxMesh" id="BoxMesh_oqax5"]
+size = Vector3(0.113220215, 0.35066223, 0.27697754)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fvmae"]
+emission_shape_scale = Vector3(0.1, 0.1, 0.1)
+spread = 80.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.79999995
+scale_max = 1.1999999
+
+[sub_resource type="Gradient" id="Gradient_fvmae"]
+colors = PackedColorArray(1, 1, 0, 0.7058824, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fvmae"]
+gradient = SubResource("Gradient_fvmae")
+fill = 1
+fill_from = Vector2(0.48976108, 0.5)
+fill_to = Vector2(0.7696246, 0.20307167)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ypydr"]
+transparency = 1
+albedo_texture = SubResource("GradientTexture2D_fvmae")
+emission_enabled = true
+emission = Color(0.5665625, 0.5665625, 3.85046e-07, 1)
+emission_energy_multiplier = 1.25
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_svtxc"]
+material = SubResource("StandardMaterial3D_ypydr")
+size = Vector2(0.3, 0.3)
+
 [node name="Weapon" type="RigidBody3D" unique_id=1101846531 groups=["interactable", "weapon"]]
 collision_layer = 4
 script = ExtResource("1_e2o24")
@@ -29,3 +65,30 @@ shape = SubResource("BoxShape3D_0w3kd")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1577210529]
 stream = ExtResource("2_fvmae")
 bus = &"SFX"
+
+[node name="MeshInstance3D_front" type="MeshInstance3D" parent="." unique_id=1961371697]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, -0.019242613, -0.33609825)
+mesh = SubResource("CylinderMesh_0w3kd")
+
+[node name="MeshInstance3D_mag" type="MeshInstance3D" parent="." unique_id=1629273638]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.0011685342, -0.2345057, -0.0046584383)
+mesh = SubResource("BoxMesh_oqax5")
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=1128119870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.017483026, -0.43506902)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=715253195]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.01, -0.67393124)
+emitting = false
+amount = 1
+lifetime = 0.01
+one_shot = true
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_fvmae")
+draw_pass_1 = SubResource("QuadMesh_svtxc")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1620187678]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.74707156)
+visible = false
+light_color = Color(1, 1, 0, 1)
+light_energy = 0.25

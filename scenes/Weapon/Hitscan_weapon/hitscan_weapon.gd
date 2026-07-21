@@ -7,6 +7,9 @@ class_name HitscanWeapon extends WeaponBase
 @onready var ray_shoot = $RayCast3D_shoot
 @onready var ray_shoot_original_target_position = ray_shoot.target_position
 @onready var audioStreamPlayer = $AudioStreamPlayer
+@onready var marker = $Marker3D
+@onready var flash = $GPUParticles3D
+@onready var flash_light = $OmniLight3D
 
 
 func _ready():
@@ -22,6 +25,11 @@ func try_attack():
 		GameManager.weapon_fired.emit()
 		audioStreamPlayer.pitch_scale = randf_range(0.9, 1.1)
 		audioStreamPlayer.play()
+		flash.restart()
+		flash_light.visible = true
+		var flash_tween = create_tween()
+		flash_tween.tween_interval(0.05)
+		flash_tween.tween_callback(func(): flash_light.visible = false)
 		var any_hit = false
 		for x in pellets:
 			ray_shoot.target_position = ray_shoot_original_target_position + Vector3(randf_range(-spread, spread), randf_range(-spread, spread), 0)

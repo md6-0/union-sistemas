@@ -1,6 +1,14 @@
 [gd_scene format=3 uid="uid://brpucg70ub140"]
 
 [ext_resource type="Script" uid="uid://cnunerjunn1vu" path="res://scenes/HUD/hud.gd" id="1_c0cnr"]
+[ext_resource type="Shader" uid="uid://djlk7l8ekpbpt" path="res://scenes/HUD/hud.gdshader" id="2_glunx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c0cnr"]
+shader = ExtResource("2_glunx")
+shader_parameter/vignette_radius = 0.4
+shader_parameter/vignette_softness = 0.4
+shader_parameter/vignette_strength = 0.6
+shader_parameter/grain_amount = 0.08
 
 [node name="CanvasLayer_hud" type="CanvasLayer" unique_id=1137507503]
 script = ExtResource("1_c0cnr")
@@ -30,3 +38,15 @@ offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1449517962]
+material = SubResource("ShaderMaterial_c0cnr")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
