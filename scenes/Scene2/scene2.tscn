@@ -128,7 +128,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.680061, 0.31672055, -11.776
 transform = Transform3D(0.086702146, 0, -0.9962343, 0, 1, 0, 0.9962343, 0, 0.086702146, 12.829054, 0.84999883, 4.8905983)
 
 [node name="StaticBody3D" parent="World/NavigationRegion3D/Room/Enemy" index="0" unique_id=1026848930 node_paths=PackedStringArray("patrol_route") groups=["enemy"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.165021, 0, 0.6235709)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.12494, -0.81791043, 0.7071123)
 patrol_route = NodePath("../../Route1")
 wait_time = 3.0
 
@@ -282,6 +282,7 @@ parameters/looping = true
 
 [editable path="Player"]
 [editable path="World/NavigationRegion3D/Room/Enemy"]
+[editable path="World/NavigationRegion3D/Room/Enemy/StaticBody3D/characterMedium"]
 [editable path="World/NavigationRegion3D/Room/SwordWeapon"]
 [editable path="World/NavigationRegion3D/Room/SwordWeapon/RigidBody3D/Sword_model"]
 [editable path="World/Man1"]

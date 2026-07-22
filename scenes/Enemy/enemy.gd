@@ -5,14 +5,14 @@ enum State { PATROL, WATCH, CHASE, ATTACK }
 const DETECTION_RANGE = 30
 const FOV = 120
 const MEMORY_TIME = 4
-const SPEED = 1
-const CHASE_SPEED = 2
+const SPEED = 2
+const CHASE_SPEED = 4
 
 @export var health: int = 100
 @export var patrol_route: Node3D
 @export var wait_time: float = 4.0
 @export var attack_cooldown: float = 2.0
-@export var attack_range: float = 2.0
+@export var attack_range: float = 1.5
 @export var attack_damage: float = 20.0
 
 @onready var label_enemy_health = %Label3D_enemy_health
@@ -22,12 +22,22 @@ const CHASE_SPEED = 2
 @onready var ray_player_detector = $RayCast3D_player_detector
 @onready var right_hand = $Hand_right
 @onready var hand_guard_rotation_x = right_hand.rotation.x
+@onready var animation_tree = $AnimationTree
+@onready var animation_state_machine = animation_tree.get("parameters/playback")
+@onready var animation_player = $characterMedium/Root/AnimationPlayer
+@onready var punch_animation_length = animation_player.get_animation("enemy/punch").length
+@onready var collision_shape = $CollisionShape3D
+
+const CORPSE_PUSH_FORCE = 4.0
+const CORPSE_LIFT_FORCE = 3.0
+const CORPSE_SPIN_FORCE = 2.0
 
 
 var current_wait_time = 0
 var current_waypoint = 0
 var current_memory_time = 0
 var current_state = State.PATROL
+var has_dealt_damage_this_swing = false
 @onready var current_attack_cooldown_time = attack_cooldown
 
 func _ready():
@@ -36,7 +46,18 @@ func _ready():
 func _physics_process(delta):
 	_handle_gravity(delta)
 	_handle_state(delta)
+	_handle_animation()
 	move_and_slide()
+
+func _handle_animation():
+	if current_state == State.CHASE:
+		animation_state_machine.travel("enemy_run")
+			
+	elif current_state == State.PATROL:
+		animation_state_machine.travel("enemy_run")
+			
+	elif current_state == State.WATCH:
+		animation_state_machine.travel("enemy_idle")
 
 func _handle_gravity(delta):
 	if not is_on_floor():
@@ -113,28 +134,24 @@ func _handle_chase_state(delta):
 	direction = direction.normalized()
 	velocity.x = direction.x * CHASE_SPEED
 	velocity.z = direction.z * CHASE_SPEED
-	look_at(global_position + direction)
+	look_at(Vector3(global_position.x, global_position.y, global_position.z) + direction)
 
 func _handle_attack_state(delta):
 	current_attack_cooldown_time += delta
-	look_at(player.global_position)
+	look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z))
 	if global_position.distance_to(player.global_position) < attack_range:
 		velocity.x = 0
 		velocity.z = 0
 		if current_attack_cooldown_time > attack_cooldown:
 			current_attack_cooldown_time = 0
-			var tween = create_tween()
-			# 1: Inicio animación
-			tween.tween_property(right_hand, "rotation:x", hand_guard_rotation_x - deg_to_rad(160), 0.1) \
-				.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)    
-			# 2: Pega      
-			tween.tween_callback(func(): 
-				if global_position.distance_to(player.global_position) < attack_range:
-					player.take_damage(attack_damage)
-				) 
-			# 3: vuelve a guardia
-			tween.tween_property(right_hand, "rotation:x", hand_guard_rotation_x, 0.3)  
-			
+			has_dealt_damage_this_swing = false
+			animation_state_machine.travel("enemy_punch")
+		elif not has_dealt_damage_this_swing and current_attack_cooldown_time > punch_animation_length / 2.0:
+			has_dealt_damage_this_swing = true
+			if global_position.distance_to(player.global_position) < attack_range:
+				player.take_damage(attack_damage)
+		elif current_attack_cooldown_time > punch_animation_length:
+			animation_state_machine.travel("enemy_idle")
 	else: 
 		_change_state(State.CHASE)
 
@@ -156,10 +173,46 @@ func _can_see_player():
 			else:
 				return false
 
-func take_damage(damage, _from_position = null, _holder = null, _allow_parry = false):
+func take_damage(damage, from_position = null, _holder = null, _allow_parry = false):
 	_change_state(State.CHASE)
 	health -= damage
 	label_enemy_health.text = str(health)
 	if health <= 0:
-		queue_free()
+		_die(from_position)
 	return true
+
+func _die(from_position):
+	set_physics_process(false)
+	animation_tree.active = false  # congela la pose actual del esqueleto
+	collision_shape.disabled = true
+
+	# Cuerpo rígido "cadáver": una sola cápsula que rueda, sin física por hueso
+	var corpse = RigidBody3D.new()
+	corpse.collision_layer = 2   # capa propia: los disparos (máscara 9) lo ignoran
+	corpse.collision_mask = 9    # colisiona con el mismo suelo que pisaba el enemigo
+	corpse.angular_damp = 3.0    # frena el giro para que deje de rodar y se asiente
+	corpse.linear_damp = 0.5
+	get_parent().add_child(corpse)
+	corpse.global_transform = global_transform
+
+	var corpse_collision = CollisionShape3D.new()
+	var capsule = CapsuleShape3D.new()
+	capsule.radius = 0.4
+	capsule.height = 1.7
+	corpse_collision.shape = capsule
+	corpse_collision.position.y = 0.9   # centra la cápsula a la altura del torso
+	corpse.add_child(corpse_collision)
+
+	# Mueve la malla (en su pose de muerte) bajo el cadáver, conservando su transform
+	$characterMedium.reparent(corpse)
+
+	# Empujón: hacia el lado contrario de quien disparó, hacia arriba, con giro
+	var push_dir = -global_transform.basis.z
+	if from_position != null:
+		push_dir = (global_position - from_position)
+		push_dir.y = 0
+		push_dir = push_dir.normalized()
+	corpse.apply_impulse(push_dir * CORPSE_PUSH_FORCE + Vector3.UP * CORPSE_LIFT_FORCE)
+	corpse.apply_torque_impulse(Vector3(push_dir.z, 0, -push_dir.x) * CORPSE_SPIN_FORCE)
+
+	queue_free()
